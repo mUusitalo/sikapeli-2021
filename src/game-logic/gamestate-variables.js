@@ -1,25 +1,45 @@
 const GamestateVariables = {
-    KLIKIT: 'klikit',
+    PEKONI: 'pekoni',
     RESETIT: 'resetit',
-    SIKALA: 'sikala',
-    REVOLVERI: 'revolveri',
-    COWBOYHATTU: 'cowboyhattu',
-    BOOTSIT: 'bootsit',
-    SALUUNA: 'saluuna',
-    RAUTATIE: 'rautatie',
-    RAUTATIEASEMA: 'rautatieasema',
-    KULTAKAIVOS: 'kultakaivos',
+    GENERATORS: {
+        SIKALA: 'sikala',
+        REVOLVERI: 'revolveri',
+        COWBOYHATTU: 'cowboyhattu',
+        BOOTSIT: 'bootsit',
+        SALUUNA: 'saluuna',
+        RAUTATIE: 'rautatie',
+        RAUTATIEASEMA: 'rautatieasema',
+        KULTAKAIVOS: 'kultakaivos',    
+    }
 }
+Object.freeze(GamestateVariables)
 
 const ProductionRates = {
-    [GamestateVariables.SIKALA]: 1,
-    [GamestateVariables.REVOLVERI]: 2,
-    [GamestateVariables.COWBOYHATTU]: 3,
-    [GamestateVariables.BOOTSIT]: 4,
-    [GamestateVariables.SALUUNA]: 5,
-    [GamestateVariables.RAUTATIE]: 6,
-    [GamestateVariables.RAUTATIEASEMA]: 7,
-    [GamestateVariables.KULTAKAIVOS]: 8,
+    [GamestateVariables.GENERATORS.SIKALA]: 1,
+    [GamestateVariables.GENERATORS.REVOLVERI]: 2,
+    [GamestateVariables.GENERATORS.COWBOYHATTU]: 3,
+    [GamestateVariables.GENERATORS.BOOTSIT]: 4,
+    [GamestateVariables.GENERATORS.SALUUNA]: 5,
+    [GamestateVariables.GENERATORS.RAUTATIE]: 6,
+    [GamestateVariables.GENERATORS.RAUTATIEASEMA]: 7,
+    [GamestateVariables.GENERATORS.KULTAKAIVOS]: 8,
 }
+Object.freeze(ProductionRates)
 
-export { GamestateVariables, ProductionRates }
+const startingGameState = {
+        [GamestateVariables.PEKONI]: 0,
+        [GamestateVariables.RESETIT]: 0,
+        [GamestateVariables.GENERATORS]: {
+            [GamestateVariables.GENERATORS.SIKALA]: 0,
+            [GamestateVariables.GENERATORS.REVOLVERI]: 0,
+            [GamestateVariables.GENERATORS.COWBOYHATTU]: 0,
+            [GamestateVariables.GENERATORS.BOOTSIT]: 0,
+            [GamestateVariables.GENERATORS.SALUUNA]: 0,
+            [GamestateVariables.GENERATORS.RAUTATIE]: 0,
+            [GamestateVariables.GENERATORS.RAUTATIEASEMA]: 0,
+            [GamestateVariables.GENERATORS.KULTAKAIVOS]: 0,    
+        }
+}
+Object.freeze(startingGameState)
+
+export { GamestateVariables, ProductionRates, startingGameState }
