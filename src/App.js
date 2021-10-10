@@ -1,4 +1,4 @@
-const { SikaKuva } = require('./assets/sikaKuva.png')
+import SikaKuva from './components/SikaKuva';
 
 function App() {
   console.log(`Sikakuva = ${SikaKuva}`)
