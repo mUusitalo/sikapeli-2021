@@ -1,5 +1,6 @@
-import { GamestateVariables, generatorSpecs } from './gamestate-variables.js'
+import { GamestateVariables } from './gamestate-variables.js'
 import { calculatePrice } from './purchase-logic.js'
+import { generatorSpecs } from './generators.js'
 
 class Gamestate {
     /**
@@ -16,7 +17,7 @@ class Gamestate {
     }
 
     canBuy(gamestateVariable) {
-        return this.bacon >= calculatePrice(gamestateVariable, this[gamestateVariable])
+        return this[GamestateVariables.PEKONI] >= calculatePrice(gamestateVariable, this[gamestateVariable] + 1)
     }
 
     buy(gamestateVariable) {
@@ -45,7 +46,7 @@ class Gamestate {
             // Bought anything else
             default:
                 // This function was called with something not in the GamestateVariables enum for whatever reason
-                if (!(gamestateVariable in Object.values(GamestateVariables))) {
+                if (!(Object.values(GamestateVariables).includes(gamestateVariable))) {
                     throw new Error(`Invalid gamestate variable: ${gamestateVariable}`)
                 }
 

@@ -5,6 +5,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 
+import { Game } from './components/game.jsx'
+
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBs-vaqBiC5zL5j4Q6RKECz4xlunLmi8hU",
   authDomain: "sikapeli-2021.firebaseapp.com",
@@ -33,6 +35,7 @@ function App() {
         {user ? <h1>Olet kirjautunut :)</h1> : <SignIn />}
       </section>
 
+      <Game/>
     </div>
   );
 }
