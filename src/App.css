@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+
+header {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+body {
+  background-image: url("./assets/sika_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #282c34;
+  color: white;
+  font-family: 'Rye', cursive;
+  text-align: center;
+}
+
+#game {
+  display: grid;
+  grid-template-columns: 15vw 70vw 15vw;
+}
+
+#store {
+  display: flex;
+  flex-direction: column;
+  margin:  0px;
+}
+
+#sign-in {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#game-title {
+  font-size: 100px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#sika-img {
+  display: block;
+  margin: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 400px;
+  width: 400px;
+}
+
+#bacon-counter {
+  font-size: 50px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
