@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+
+body {
+  background-image: url("./assets/sika_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #282c34;
+  color: white;
+  font-family: 'Rye', cursive;
+  text-align: center;
+}
+
+#sika-img {
+  display: block;
+  margin: auto;
+  height: 400px;
+  width: 400px;
+}
+
+#bacon-counter {
+  font-size: 50px;
+}
