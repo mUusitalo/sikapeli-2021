@@ -4,11 +4,13 @@ import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { PurchaseButton, } from './purchaseButton.jsx'
+import { useAnimationFrame } from "../hooks/use-animation-frame";
+
 
 const Game = () => {
     const [gamestate, setGamestate] = useState(new Gamestate())
     
-    console.log(gamestate)
+    useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
 
     return (
         <>
