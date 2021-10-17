@@ -63,11 +63,12 @@ class Gamestate {
             )
     }
     
-    stepOneFrame(frameTimeinMilliseconds) {
-        var generatedBacon = this.calculateBaconPerSecond() * (frameTimeinMilliseconds / 1000)
+    stepInTime(milliseconds) {
+        console.log(`Stepping in time by ${milliseconds} milliseconds from \n ${JSON.stringify(this)}`)
+        var generatedBacon = this.calculateBaconPerSecond() * (milliseconds / 1000)
         var newState = new Gamestate(this)
         newState[GamestateVariables.PEKONI] += generatedBacon
-        return newState
+        return newState //{stepInTime: (temp) => {throw new Error("uusi olio on jeejee toimii tältä osin")}}
     }
 }
 
