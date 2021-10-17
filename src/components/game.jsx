@@ -5,7 +5,6 @@ import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { PurchaseButton, } from './purchaseButton.jsx'
 import { useAnimationFrame } from "../hooks/use-animation-frame";
-import { PurchaseButton, } from './purchaseButton.jsx'
 
 
 const Game = () => {
@@ -28,13 +27,16 @@ const Game = () => {
                  <SikaKuva handleClick={() => setGamestate(gamestate.add(GamestateVariables.PEKONI))}/>
                 </div>
                 <div id='store'>
-                    {Object.values(GamestateVariables).map((variable) =>
+                    {Object.values(GamestateVariables)
+                    .filter(variable => variable !== GamestateVariables.PEKONI)
+                    .map((variable) =>
                         <PurchaseButton
-                         key={variable}
-                         gamestate={gamestate}
-                         generator={variable}
-                         onClick={() => setGamestate(gamestate.add(variable))}
-                         canBuy={gamestate.canBuy(variable)}/>)}
+                            key={variable}
+                            gamestate={gamestate}
+                            generator={variable}
+                            onClick={() => setGamestate(gamestate.add(variable))}
+                            canBuy={gamestate.canBuy(variable)}
+                    />)}
                 </div>
             </div>
         </>
