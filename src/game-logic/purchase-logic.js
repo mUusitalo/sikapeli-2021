@@ -4,6 +4,7 @@ import { generatorSpecs } from "./generators";
 const PRICE_POWER = 2
 const RESET_PRICE = Math.pow(10, 15)
 const PRICE_BASE_MULTIPLIER = 10
+const RESET_PRICE = Math.pow(10, 15)
 
 /**
  * Calculates the price of the variableCount:th purhcaseable of type gamestateVariable.

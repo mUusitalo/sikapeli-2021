@@ -5,6 +5,7 @@ import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { PurchaseButton, } from './purchaseButton.jsx'
 import { useAnimationFrame } from "../hooks/use-animation-frame";
+import { PurchaseButton, } from './purchaseButton.jsx'
 
 
 const Game = () => {
