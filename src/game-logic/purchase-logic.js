@@ -2,6 +2,7 @@ import { GamestateVariables } from "./gamestate-variables";
 import { generatorSpecs } from "./generators";
 
 const PRICE_POWER = 2
+const PRICE_BASE_MULTIPLIER = 10
 
 /**
  * Calculates the price of the variableCount:th purhcaseable of type gamestateVariable.
@@ -13,7 +14,7 @@ function calculatePrice(gamestateVariable, variableCount) {
             throw new Error("Resetit ei toimi vielä! Jos tää lipsui pelin tuotantoversioon, oon pahoillani 😀 Ota yhteyttä sikatiimiin ASAP, pliis!")
 
         case (gamestateVariable in generatorSpecs):
-            return generatorSpecs[gamestateVariable].rate * Math.pow(variableCount, PRICE_POWER)
+            return generatorSpecs[gamestateVariable].rate * PRICE_BASE_MULTIPLIER * Math.pow(variableCount, PRICE_POWER)
 
         default:
             throw new Error(`Invalid gamestate variable: ${gamestateVariable}`)

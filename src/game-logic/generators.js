@@ -1,44 +1,36 @@
 import { GamestateVariables } from "./gamestate-variables"
 
 const generatorSpecs = {
-    [GamestateVariables.PEKONI]: {
-        rate: 1,
-    },
-
-    [GamestateVariables.RESET]: {
-        rate: 2,
-    },
-
     [GamestateVariables.SIKALA]: {
-        rate: 3,
+        rate: 0.1,
     },
 
     [GamestateVariables.REVOLVERI]: {
-        rate: 4,
+        rate: 2,
     },
 
     [GamestateVariables.COWBOYHATTU]: {
-        rate: 5,
+        rate: 30,
     },
 
     [GamestateVariables.BOOTSIT]: {
-        rate: 6,
+        rate: 500,
     },
 
     [GamestateVariables.SALUUNA]: {
-        rate: 7,
+        rate: 10000,
     },
 
     [GamestateVariables.RAUTATIE]: {
-        rate: 8,
+        rate: 150000,
     },
 
     [GamestateVariables.RAUTATIEASEMA]: {
-        rate: 9,
+        rate: 3000000,
     },
 
     [GamestateVariables.KULTAKAIVOS]: {
-        rate: 10,
+        rate: 99999999,
     },
 }
 
