@@ -27,14 +27,12 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>Sikagame 2021</h1>
         <SignOut />
+        <section id='sign-in'>
+            {user ? <h1>Olet kirjautunut :)</h1> : <SignIn />}
+        </section>
       </header>
-
-      <section>
-        {user ? <h1>Olet kirjautunut :)</h1> : <SignIn />}
-      </section>
-
+      <h1 id='game-title'>Sikagame 2021</h1>
       <Game/>
     </div>
   );
