@@ -22,10 +22,8 @@ const Game = () => {
                            .map((variable) =>
                                 <p> {variable}: {gamestate[variable]} </p>)}
                 </div>
-                <div>
-                 <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toFixed(2)}</p>
-                 <SikaKuva handleClick={() => setGamestate(gamestate.add(GamestateVariables.PEKONI))}/>
-                </div>
+                <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toFixed(2)}</p>
+                <SikaKuva handleClick={() => setGamestate(gamestate.add(GamestateVariables.PEKONI))}/>
                 <div id='store'>
                     {Object.values(GamestateVariables)
                     .filter(variable => variable !== GamestateVariables.PEKONI)

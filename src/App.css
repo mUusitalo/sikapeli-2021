@@ -1,15 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 header {
-  display: flex;
-  flex-direction: row-reverse;
+  display: grid;
+  grid-template-columns: 3fr 10fr 3fr;
+  grid-template-areas:
+      "empty title sign-in";
+}
+
+.empty {
+  grid-area: empty;
 }
 
 body {
-  background-image: url("./assets/sika_background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #282c34;
+  /*Oikea taustakuva alla, pidetään kommentoituna teeman salassapitämiseksi*/
+  /*background-image: url("./assets/sika_background.png");*/
+  /*background-size: cover;*/
+  /*background-repeat: no-repeat;*/
+  background-color: lightblue;
   color: white;
   font-family: 'Rye', cursive;
   text-align: center;
@@ -17,37 +24,100 @@ body {
 
 #game {
   display: grid;
-  grid-template-columns: 15vw 70vw 15vw;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 10fr;
+  grid-template-areas:
+    "counter counter counter"
+    "items sika store";
+  }
+
+#sika-img {
+  display: block;
+  margin: auto;
+  margin-top: 0px;
+  height: 40vw;
+  width: 40vw;
+  grid-area: sika;
+}
+
+
+#items {
+  display: flex;
+  flex-direction: column;
+  margin:  0px;
+  grid-area: items;
 }
 
 #store {
   display: flex;
   flex-direction: column;
   margin:  0px;
+  grid-area: store;
 }
 
 #sign-in {
   display: flex;
   flex-direction: row-reverse;
+  grid-area: sign-in;
 }
 
 #game-title {
   font-size: 100px;
   margin-top: 0;
   margin-bottom: 0;
+  grid-area: title;
 }
 
-#sika-img {
-  display: block;
-  margin: auto;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  height: 400px;
-  width: 400px;
-}
 
 #bacon-counter {
-  font-size: 50px;
+  font-size: 80px;
   margin-top: 0px;
   margin-bottom: 0px;
+  padding-bottom: -100;
+  grid-area: counter;
+}
+
+@media (max-width: 800px) {
+  #game{
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 1fr 4fr 2fr 2fr;
+    grid-template-areas:
+      "counter"
+      "sika"
+      "store"
+      "items";
+  }
+
+  #sika-img {
+    height: 80vw;
+    width: 80vw;
+    margin-top: -50px;
+  }
+
+  #items {
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw 25vw;
+  }
+
+  #store {
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw 25vw;
+  }
+
+  #bacon-counter{
+    font-size: 12vw;
+    margin-top: -40px;
+
+  }
+
+  #game-title{
+    font-size: 10vw;
+  }
+
+  #sign-in {
+    flex-direction: column;
+    font-size: 10px;
+  }
+
 }
