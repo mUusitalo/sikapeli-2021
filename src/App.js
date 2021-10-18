@@ -32,7 +32,7 @@ function App() {
             {user ? <h1>Olet kirjautunut :)</h1> : <SignIn />}
         </section>
       </header>
-      <h1 id='game-title'>Sikagame 2021</h1>
+      <h1 id='game-title'>{/*'Sikapeli 2021' OPSEC'*/'O1-PROJEKTI'/* FAKE */}</h1>
       <Game/>
     </div>
   );

@@ -6,12 +6,14 @@ header {
 }
 
 body {
-  background-image: url("./assets/sika_background.png");
+  /*background-image: url("./assets/sika_background.png"); OPSEC */
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: #282c34;
+  /*background-color: #282c34; OPSEC*/
+  background-color: #7aceff; /* FAKE */
   color: white;
-  font-family: 'Rye', cursive;
+  /* font-family: 'Rye', cursive; OPSEC */ 
+  font-family: 'Helvetica'; /* FAKE */
   text-align: center;
 }
 
