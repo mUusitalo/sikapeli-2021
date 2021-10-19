@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-//import { getFirestore } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -17,23 +17,21 @@ const firebaseApp = initializeApp({
 })
 
 const auth = getAuth(firebaseApp);
-//const firestore = getFirestore(firebaseApp);
-
+const db = getFirestore()
 
 function App() {
-
-  const [user] = useAuthState(auth);
+  const [ user ] = useAuthState(auth);
 
   return (
     <div className="App">
       <header>
-        <SignOut />
+        <SignOut/>
         <section id='sign-in'>
-            {user ? <h1>Olet kirjautunut :)</h1> : <SignIn />}
+            {user ? <SignedInComponent/> : <SignIn/>}
         </section>
       </header>
       <h1 id='game-title'>{/*'Sikapeli 2021' OPSEC'*/'O1-PROJEKTI'/* FAKE */}</h1>
-      <Game/>
+      {user ? <Game uid={user.uid} db={db}/> : <h1>Kirjaudu sisään pelataksesi</h1>}
     </div>
   );
 }
@@ -54,10 +52,17 @@ function SignIn() {
 
 }
 
+const SignedInComponent = () => (
+  <>
+    <p>JEEJEE kirjautunut sisään 😎</p>
+  </>
+)
+
 function SignOut() {
   return auth.currentUser && (
     <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
   )
 }
+
 
 export default App;
