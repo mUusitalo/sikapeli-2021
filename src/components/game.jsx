@@ -4,10 +4,8 @@ import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { PurchaseButton, } from './purchaseButton.jsx'
-import { saveGamestate } from "../firebase/save-gamestate";
 import { useAnimationFrame } from "../hooks/use-animation-frame";
-
-
+import { readGamestate, saveGamestate } from "../firebase/database-service";
 
 const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
@@ -17,7 +15,6 @@ const Game = ({uid, db}) => {
     return (
         <>
             <div id='game'>
-                <SaveGameButton gamestate={gamestate} db={db} uid={uid}/>
                 <div id='items'>
                     {Object.values(GamestateVariables)
                            .filter((variable) =>
@@ -42,10 +39,30 @@ const Game = ({uid, db}) => {
                     />)}
                 </div>
             </div>
+            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate}}/>
         </>
     )
 }
 
-const SaveGameButton = ({gamestate, uid, db}) => <button onClick={() => saveGamestate(gamestate, uid, db)} >Save game woot wooot!</button>
+const DevTools = ({gamestate, uid, db, gameSetter}) => (
+    <>
+        <h1>Devtools</h1>
+        <SaveGameButton {...{gamestate, uid, db}}/>
+        <GetSaveButton {...{gameSetter, uid, db}}/>
+    </>
+)
+
+const SaveGameButton = ({gamestate, uid, db}) => (
+    <button onClick={() => saveGamestate({gamestate, uid, db})}>
+        Write to database
+    </button>
+)
+
+const GetSaveButton = ({gameSetter, uid, db}) => (
+    <button onClick={async () => 
+        gameSetter(new Gamestate(await readGamestate({uid, db})))}>
+        Read from database
+    </button>
+)
 
 export { Game }

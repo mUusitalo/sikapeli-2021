@@ -20,19 +20,18 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore()
 
 function App() {
-
-  const [user] = useAuthState(auth);
+  const [ user ] = useAuthState(auth);
 
   return (
     <div className="App">
       <header>
-        <SignOut />
+        <SignOut/>
         <section id='sign-in'>
-            {user ? <SignedInComponent/> : <SignIn />}
+            {user ? <SignedInComponent/> : <SignIn/>}
         </section>
       </header>
       <h1 id='game-title'>{/*'Sikapeli 2021' OPSEC'*/'O1-PROJEKTI'/* FAKE */}</h1>
-      <Game uid={auth.currentUser.uid} db={db}/>
+      {user ? <Game uid={user.uid} db={db}/> : <h1>Kirjaudu sisään pelataksesi</h1>}
     </div>
   );
 }
