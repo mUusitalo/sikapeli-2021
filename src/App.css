@@ -97,12 +97,12 @@ body {
 
   #items {
     display: grid;
-    grid-template-columns: 25vw 25vw 25vw 25vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   #store {
     display: grid;
-    grid-template-columns: 25vw 25vw 25vw 25vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   #bacon-counter{
