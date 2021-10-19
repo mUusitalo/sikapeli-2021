@@ -64,7 +64,6 @@ class Gamestate {
     }
     
     stepInTime(milliseconds) {
-        console.log(`Stepping in time by ${milliseconds} milliseconds from \n ${JSON.stringify(this)}`)
         var generatedBacon = this.calculateBaconPerSecond() * (milliseconds / 1000)
         var newState = new Gamestate(this)
         newState[GamestateVariables.PEKONI] += generatedBacon
