@@ -6,7 +6,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import { Game } from './components/game.jsx'
-import { saveGamestate } from './assets/firebase/save-gamestate.js';
+import { saveGamestate } from './firebase/save-gamestate';
+import { readGamamestate } from './firebase/read-gamestate';
 
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBs-vaqBiC5zL5j4Q6RKECz4xlunLmi8hU",
