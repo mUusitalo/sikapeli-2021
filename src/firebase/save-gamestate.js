@@ -1,14 +1,11 @@
-import { collection, addDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 
-async function saveGamestate(gamestate, uid, db) {
-    try {
-        const docRef = await addDoc(collection(db, "gamestates"),
-            {...gamestate}
-        );
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
+async function saveGamestate(gamestate, db, uid) {
+    await setDoc(doc(db, "users", uid),
+        {...gamestate}
+    );
 }
 
-export { saveGamestate }
+export {
+    saveGamestate,
+}

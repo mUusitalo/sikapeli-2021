@@ -6,6 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import { Game } from './components/game.jsx'
+
 import { saveGamestate } from './firebase/save-gamestate';
 import { readGamamestate } from './firebase/read-gamestate';
 
@@ -34,7 +35,7 @@ function App() {
         </section>
       </header>
       <h1 id='game-title'>{/*'Sikapeli 2021' OPSEC'*/'O1-PROJEKTI'/* FAKE */}</h1>
-      <Game/>
+      <Game uid={auth.currentUser.uid} db={db}/>
     </div>
   );
 }
@@ -58,7 +59,6 @@ function SignIn() {
 const SignedInComponent = () => (
   <>
     <p>JEEJEE kirjautunut sisään 😎</p>
-    <SaveGameButton/>
   </>
 )
 
@@ -68,6 +68,5 @@ function SignOut() {
   )
 }
 
-const SaveGameButton = () => <button onClick={() => saveGamestate({uid: auth.currentUser.uid, testi: "juuu", toinentesti: "jaaaa", kolmastesti: 3}, auth.currentUser.uid, db)} >Save game woot wooot!</button>
 
 export default App;
