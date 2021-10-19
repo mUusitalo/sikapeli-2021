@@ -1,7 +1,3 @@
-import ladybug from '../assets/ladybug.png' // FAKE
-// OPSEC import sikaKuva from '../assets/sikaKuva.png'
-
-// OPSEC const SikaKuva = ({handleClick}) => <img onClick={handleClick} src={sikaKuva} id='sika-img' alt='Sian kuva'/>
-const SikaKuva = ({handleClick}) => <img onClick={handleClick} src={ladybug} id='sika-img' alt='Sian kuva'/> // FAKE
+const SikaKuva = ({handleClick}) => <img onClick={handleClick} src='https://i.pinimg.com/originals/7e/a1/e0/7ea1e0331f5e53f14aa0aae202838c42.png' id='sika-img' alt='Sian kuva'/>
 
 export {SikaKuva}

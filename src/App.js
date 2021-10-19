@@ -30,7 +30,7 @@ function App() {
             {user ? <SignedInComponent/> : <SignIn/>}
         </section>
       </header>
-      <h1 id='game-title'>{/*'Sikapeli 2021' OPSEC'*/'O1-PROJEKTI'/* FAKE */}</h1>
+      <h1 id='game-title'>Sikapeli 2021</h1>
       {user ? <Game uid={user.uid} db={db}/> : <h1>Kirjaudu sisään pelataksesi</h1>}
     </div>
   );
