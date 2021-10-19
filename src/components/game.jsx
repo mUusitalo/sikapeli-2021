@@ -5,9 +5,9 @@ import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { PurchaseButton, } from './purchaseButton.jsx'
 import { useAnimationFrame } from "../hooks/use-animation-frame";
+import { readGamestate, saveGamestate } from "../firebase/database-service";
 
-
-const Game = () => {
+const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
     
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
@@ -20,7 +20,7 @@ const Game = () => {
                            .filter((variable) =>
                                 variable!=GamestateVariables.PEKONI && variable!=GamestateVariables.RESET)
                            .map((variable) =>
-                                <p> {variable}: {gamestate[variable]} </p>)}
+                                <p key={variable}> {variable}: {gamestate[variable]} </p>)}
                 </div>
                 <div>
                  <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toFixed(2)}</p>
@@ -39,8 +39,30 @@ const Game = () => {
                     />)}
                 </div>
             </div>
+            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate}}/>
         </>
     )
 }
+
+const DevTools = ({gamestate, uid, db, gameSetter}) => (
+    <>
+        <h1>Devtools</h1>
+        <SaveGameButton {...{gamestate, uid, db}}/>
+        <GetSaveButton {...{gameSetter, uid, db}}/>
+    </>
+)
+
+const SaveGameButton = ({gamestate, uid, db}) => (
+    <button onClick={() => saveGamestate({gamestate, uid, db})}>
+        Write to database
+    </button>
+)
+
+const GetSaveButton = ({gameSetter, uid, db}) => (
+    <button onClick={async () => 
+        gameSetter(new Gamestate(await readGamestate({uid, db})))}>
+        Read from database
+    </button>
+)
 
 export { Game }
