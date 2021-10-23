@@ -1,4 +1,4 @@
-import { GamestateVariables } from "./gamestate-variables"
+import { GamestateVariables } from "./gamestate-variables.js"
 
 const generatorSpecs = {
     [GamestateVariables.SIKALA]: {

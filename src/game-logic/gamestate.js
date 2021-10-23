@@ -1,6 +1,6 @@
-import { GamestateVariables } from './gamestate-variables.js'
-import { calculatePrice } from './purchase-logic.js'
-import { generatorSpecs } from './generators.js'
+import { GamestateVariables } from './gamestate-variables.js';
+import { calculatePrice } from './purchase-logic.js';
+import { generatorSpecs } from './generators.js';
 
 class Gamestate {
     /**
@@ -71,4 +71,4 @@ class Gamestate {
     }
 }
 
-export { Gamestate, }
+export { Gamestate }
