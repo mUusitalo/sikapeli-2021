@@ -10,8 +10,8 @@ const PRICE_BASE_MULTIPLIER = 10
  * Indexing of variableCount starts from 1 because it makes sense that 0 items costs 0.
  */
 function calculatePrice(gamestateVariable, variableCount) {
-    switch(gamestateVariable) {
-        case GamestateVariables.RESET:
+    switch(true) {
+        case gamestateVariable === GamestateVariables.RESET:
             return RESET_PRICE
 
         case (gamestateVariable in generatorSpecs):
