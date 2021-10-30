@@ -27,8 +27,8 @@ function App() {
   return (
     <div className="App">
       <header>
-        <div calss="empty"></div>
-        <h1 id='game-title'>Sikagame 2021</h1>
+        <div class="empty"></div>
+        <h1 id="game-title">Sikagame 2021</h1>
         <div id="sign-in">
         <SignOut />
         <section>

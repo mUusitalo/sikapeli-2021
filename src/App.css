@@ -40,6 +40,11 @@ body {
   grid-area: sika;
 }
 
+#sika-img[animated='1'] {
+  animation: click;
+  animation-duration: 0.1s;
+
+}
 
 #items {
   display: flex;
@@ -56,13 +61,14 @@ body {
 }
 
 #sign-in {
+  font-size: 20px;
   display: flex;
   flex-direction: row-reverse;
   grid-area: sign-in;
 }
 
 #game-title {
-  font-size: 100px;
+  font-size: 50px;
   margin-top: 0;
   margin-bottom: 0;
   grid-area: title;
@@ -73,7 +79,7 @@ body {
   font-size: 80px;
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-bottom: -100;
+  padding-bottom: -200px;
   grid-area: counter;
 }
 
@@ -120,4 +126,21 @@ body {
     font-size: 10px;
   }
 
+}
+
+
+
+@keyframes click {
+  0% {
+    width:  40vw;
+    height: 40vw;
+  }
+  50% {
+    width:  45vw;
+    height: 45vw;
+  }
+  100% {
+    width:  40vw;
+    height: 40vw;
+  }
 }
