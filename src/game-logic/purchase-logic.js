@@ -10,12 +10,12 @@ const PRICE_BASE_MULTIPLIER = 10
  * Indexing of variableCount starts from 1 because it makes sense that 0 items costs 0.
  */
 function calculatePrice(gamestateVariable, variableCount) {
-    switch(true) {
-        case (gamestateVariable === GamestateVariables.RESET):
+    switch(gamestateVariable) {
+        case GamestateVariables.RESET:
             return RESET_PRICE
 
         case (gamestateVariable in generatorSpecs):
-            return generatorSpecs[gamestateVariable].rate * PRICE_BASE_MULTIPLIER * Math.pow(variableCount, PRICE_POWER)
+            return generatorSpecs[gamestateVariable].basePrice * PRICE_BASE_MULTIPLIER * Math.pow(variableCount, PRICE_POWER)
 
         default:
             throw new Error(`Invalid gamestate variable: ${gamestateVariable}`)
