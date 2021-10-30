@@ -1,44 +1,44 @@
 import { GamestateVariables } from "./gamestate-variables"
 
 const generatorSpecs = {
-    [GamestateVariables.SIKALA]: {
-        rate: 0.1,
-        basePrice: ???
-    },
-
     [GamestateVariables.REVOLVERI]: {
-        rate: 2,
-        basePrice: ???
-    },
-
-    [GamestateVariables.COWBOYHATTU]: {
-        rate: 30,
-        basePrice: ???
-    },
-
-    [GamestateVariables.BOOTSIT]: {
-        rate: 500,
-        basePrice: ???
+        rate: 0.4,
+        basePrice: 30
     },
 
     [GamestateVariables.SALUUNA]: {
-        rate: 10000,
-        basePrice: ???
+        rate: 0.8,
+        basePrice: 120
     },
 
-    [GamestateVariables.RAUTATIE]: {
-        rate: 150000,
-        basePrice: ???
+    [GamestateVariables.COWBOY]: {
+        rate: 1,
+        basePrice: 600
     },
 
-    [GamestateVariables.RAUTATIEASEMA]: {
-        rate: 3000000,
-        basePrice: ???
+    [GamestateVariables.SIKALAUMA]: {
+        rate: 2,
+        basePrice: 2500
+    },
+
+    [GamestateVariables.SIKAFARMI]: {
+        rate: 5,
+        basePrice: 10000
+    },
+
+    [GamestateVariables.KYLA]: {
+        rate: 25,
+        basePrice: 50000
     },
 
     [GamestateVariables.KULTAKAIVOS]: {
-        rate: 99999999,
-        basePrice: ???
+        rate: 60,
+        basePrice: 200000
+    },
+
+    [GamestateVariables.SIKAIMPERIUMI]: {
+        rate: 300,
+        basePrice: 1000000
     },
 }
 

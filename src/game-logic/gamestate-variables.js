@@ -1,14 +1,14 @@
 const GamestateVariables = {
-    PEKONI: 'pekoni',
-    RESET: 'reset',
-    SIKALA: 'sikala',
-    REVOLVERI: 'revolveri',
-    COWBOYHATTU: 'cowboyhattu',
-    BOOTSIT: 'bootsit',
-    SALUUNA: 'saluuna',
-    RAUTATIE: 'rautatie',
-    RAUTATIEASEMA: 'rautatieasema',
-    KULTAKAIVOS: 'kultakaivos',
+    PEKONI: 'Pekoni',
+    RESET: 'Reset',
+    SIKAIMPERIUMI: 'Sikaimperiumi',
+    REVOLVERI: 'Revolveri',
+    COWBOY: 'Cowboy',
+    KYLA: 'Kylä',
+    SALUUNA: 'Saluuna',
+    SIKALAUMA: 'Sikalauma',
+    SIKAFARMI: 'Sikafarmi',
+    KULTAKAIVOS: 'Kultakaivos',
 }
 Object.freeze(GamestateVariables)
 
