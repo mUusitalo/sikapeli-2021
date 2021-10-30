@@ -2,6 +2,7 @@
 
 header {
   display: grid;
+  font-size: 5px;
   grid-template-columns: 3fr 10fr 3fr;
   grid-template-areas:
       "empty title sign-in";
@@ -12,14 +13,21 @@ header {
 }
 
 body {
-  /*Oikea taustakuva alla, pidetään kommentoituna teeman salassapitämiseksi*/
-  /*background-image: url("./assets/sika_background.png");*/
-  /*background-size: cover;*/
-  /*background-repeat: no-repeat;*/
-  background-color: lightblue;
+  background-image: url("./assets/sika_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   color: white;
   font-family: 'Rye', cursive;
   text-align: center;
+}
+
+button {
+  border-radius: 10px;
+  border-color: #C3976A;
+  border-width: 4px;
+  background-color: #924A36;
+  color:  white;
+  font-family: 'Rye', cursive;
 }
 
 #game {
@@ -34,9 +42,9 @@ body {
 #sika-img {
   display: block;
   margin: auto;
-  margin-top: 0px;
-  height: 40vw;
-  width: 40vw;
+  margin-top: 10px;
+  height: 30vw;
+  width: 30vw;
   grid-area: sika;
 }
 
@@ -49,7 +57,6 @@ body {
 #items {
   display: flex;
   flex-direction: column;
-  margin:  0px;
   grid-area: items;
 }
 
@@ -61,25 +68,23 @@ body {
 }
 
 #sign-in {
-  font-size: 20px;
   display: flex;
   flex-direction: row-reverse;
   grid-area: sign-in;
 }
 
 #game-title {
-  font-size: 50px;
-  margin-top: 0;
-  margin-bottom: 0;
+  display: block;
+  margin: auto;
+  font-size: 30px;
   grid-area: title;
 }
 
 
 #bacon-counter {
-  font-size: 80px;
-  margin-top: 0px;
+  font-size: 40px;
+  margin-top: 10px;
   margin-bottom: 0px;
-  padding-bottom: -200px;
   grid-area: counter;
 }
 
@@ -87,7 +92,7 @@ body {
   #game{
     display: grid;
     justify-items: center;
-    grid-template-rows: 1fr 4fr 2fr 2fr;
+    grid-template-rows: 1fr 4fr 3fr 3fr;
     grid-template-areas:
       "counter"
       "sika"
@@ -99,6 +104,12 @@ body {
     height: 80vw;
     width: 80vw;
     margin-top: -50px;
+    margin-bottom: 5vw;
+  }
+
+  #sika-img[animated='1'] {
+    animation: click-mobile;
+    animation-duration: 0.1s;
   }
 
   #items {
@@ -108,7 +119,12 @@ body {
 
   #store {
     display: grid;
+    margin-left: 5px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  button {
+    font-size: 10px;
   }
 
   #bacon-counter{
@@ -119,6 +135,7 @@ body {
 
   #game-title{
     font-size: 10vw;
+    margin-top: 0vh;
   }
 
   #sign-in {
@@ -132,15 +149,31 @@ body {
 
 @keyframes click {
   0% {
-    width:  40vw;
-    height: 40vw;
+    width:  30vw;
+    height: 30vw;
   }
   50% {
-    width:  45vw;
-    height: 45vw;
+    width:  35vw;
+    height: 35vw;
   }
   100% {
-    width:  40vw;
-    height: 40vw;
+    width:  30vw;
+    height: 30vw;
+  }
+}
+
+@keyframes click-mobile {
+  0% {
+    width:  80vw;
+    height: 80vw;
+  }
+  50% {
+    width:  85vw;
+    height: 85vw;
+    margin-bottom: 0vw;
+  }
+  100% {
+    width:  80vw;
+    height: 80vw;
   }
 }
