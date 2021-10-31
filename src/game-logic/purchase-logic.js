@@ -1,10 +1,9 @@
 import { GamestateVariables } from "./gamestate-variables.js";
 import { generatorSpecs } from "./generators.js";
 
-const PRICE_POWER = 2
 const RESET_PRICE = Math.pow(10, 15)
 const PRICE_BASE_MULTIPLIER = 2
-const BASE_NUMBER = 1.10
+const BASE_COUNT = 1.10
 
 /**
  * Calculates the price of the variableCount:th purhcaseable of type gamestateVariable.
