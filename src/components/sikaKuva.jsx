@@ -1,4 +1,5 @@
 import { useState, } from "react";
+import SikaImg from "../assets/sika_head.png"
 
 const SikaKuva = ({handleClick}) => {
 	const [animated, setAnimated] = useState(0)
@@ -7,7 +8,7 @@ const SikaKuva = ({handleClick}) => {
 			onClick={() =>{setAnimated(1);
 						   handleClick();}}
 			onAnimationEnd={() => setAnimated(0)}
-			src='https://i.pinimg.com/originals/7e/a1/e0/7ea1e0331f5e53f14aa0aae202838c42.png'
+			src={SikaImg}
 			id='sika-img'
 			alt='Sian kuva'
 			animated={animated}

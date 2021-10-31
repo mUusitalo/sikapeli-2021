@@ -23,7 +23,7 @@ const auth = getAuth(firebaseApp);
 function App() {
 
   const [user] = useAuthState(auth);
-
+  document.title = "Sikapeli"
   return (
     <div className="App">
       <header>
