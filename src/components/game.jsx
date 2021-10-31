@@ -1,6 +1,6 @@
 import { useState, } from "react";
 import { initializeApp } from 'firebase/app';
-import { getFunctions, connectFunctionsEmulator, httpsCallable } from 'firebase/functions'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 
 import firebaseEnv from '../firebase-env.js'
 import { Gamestate, } from '../game-logic/gamestate'
@@ -12,7 +12,6 @@ import { readGamestate, saveGamestate } from "../firebase/database-service";
 
 
 const functions = getFunctions(initializeApp(firebaseEnv));
-connectFunctionsEmulator(functions, 'localhost', 5001); // This is for emulator testing only
 const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
 
 const Game = ({uid, db}) => {
