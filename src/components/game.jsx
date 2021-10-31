@@ -1,5 +1,8 @@
 import { useState, } from "react";
+import { initializeApp } from 'firebase/app';
+import { getFunctions, httpsCallable } from 'firebase/functions'
 
+import firebaseEnv from '../firebase-env.js'
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
@@ -7,10 +10,38 @@ import { PurchaseButton, } from './purchaseButton.jsx'
 import { useAnimationFrame } from "../hooks/use-animation-frame";
 import { readGamestate, saveGamestate } from "../firebase/database-service";
 
+
+const functions = getFunctions(initializeApp(firebaseEnv));
+const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
+
 const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
-    
+    const [modifications, setModifications] = useState([])
+    const [previousModificationTime, setPreviousModificationTime] = useState(Date.now())
+
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
+
+    const setGamestateAndLogModification = (modification) => {
+        setGamestate(gamestate.add(modification))
+        
+        const currentTime = Date.now()
+        const deltaTime = currentTime - previousModificationTime
+        setPreviousModificationTime(currentTime)
+
+        const modificationLogEntry = {
+            modification: modification,
+            deltaTime: deltaTime 
+        }
+
+        setModifications([...modifications, modificationLogEntry])
+    }
+
+    const handleVerify = (verifiedGamestate, timestamp) => {
+        console.log(verifiedGamestate, timestamp)
+        setModifications([])
+        setGamestate(verifiedGamestate)
+        setPreviousModificationTime(timestamp)
+    }
 
     return (
         <>
@@ -24,7 +55,7 @@ const Game = ({uid, db}) => {
                 </div>
                 <div>
                  <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toFixed(2)}</p>
-                 <SikaKuva handleClick={() => setGamestate(gamestate.add(GamestateVariables.PEKONI))}/>
+                 <SikaKuva handleClick={() => setGamestateAndLogModification(GamestateVariables.PEKONI)}/>
                 </div>
                 <div id='store'>
                     {Object.values(GamestateVariables)
@@ -34,21 +65,22 @@ const Game = ({uid, db}) => {
                             key={variable}
                             gamestate={gamestate}
                             generator={variable}
-                            onClick={() => setGamestate(gamestate.add(variable))}
+                            onClick={() => setGamestateAndLogModification(variable)}
                             canBuy={gamestate.canBuy(variable)}
                     />)}
                 </div>
             </div>
-            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate}}/>
+            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>
         </>
     )
 }
 
-const DevTools = ({gamestate, uid, db, gameSetter}) => (
+const DevTools = ({gamestate, uid, db, gameSetter, modifications, previousModificationTime, handleVerify}) => (
     <>
         <h1>Devtools</h1>
         <SaveGameButton {...{gamestate, uid, db}}/>
         <GetSaveButton {...{gameSetter, uid, db}}/>
+        <VerifyGamestateButton {...{modifications, previousModificationTime, handleVerify}}/>
     </>
 )
 
@@ -62,6 +94,20 @@ const GetSaveButton = ({gameSetter, uid, db}) => (
     <button onClick={async () => 
         gameSetter(new Gamestate(await readGamestate({uid, db})))}>
         Read from database
+    </button>
+)
+
+const VerifyGamestateButton = ({modifications, previousModificationTime, handleVerify}) => (
+    <button onClick={async () => {
+        const currentTime = Date.now()
+        const res = await verifyGamestate({
+            modifications,
+            idleTimeAfterModifications: currentTime - previousModificationTime
+        })
+        const verifiedGamestate = new Gamestate(res.data)
+        handleVerify(verifiedGamestate, currentTime)
+    }}>
+        Verify gamestate
     </button>
 )
 

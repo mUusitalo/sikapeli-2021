@@ -1,5 +1,5 @@
-import { GamestateVariables } from "./gamestate-variables";
-import { generatorSpecs } from "./generators";
+import { GamestateVariables } from "./gamestate-variables.js";
+import { generatorSpecs } from "./generators.js";
 
 const PRICE_POWER = 2
 const RESET_PRICE = Math.pow(10, 15)
