@@ -39,6 +39,7 @@ const Game = ({uid, db}) => {
 
     const handleVerify = (verifiedGamestate, timestamp) => {
         console.log(verifiedGamestate, timestamp)
+        setModifications([])
         setGamestate(verifiedGamestate)
         setPreviousModificationTime(timestamp)
     }

@@ -5,7 +5,8 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const MARGIN_OF_ERROR_IN_MILLISECONDS = 5000 // 5 seconds
-const MAX_DELTA_TIME_SUM = 3000000 // 5 minutes
+const MAX_DELTA_TIME_SUM = 300000 // 5 minutes
+const MAX_CLICKS_PER_SECOND = 50
 
 /**
  * Adds all of the given modifications to the given gamestate.
@@ -44,9 +45,25 @@ function countTime(modifications) {
 /**
  * Check that the total passed time in modifications is defined and below MAX_DELTA_TIME_SUM
  */
-function totalDeltaTimeIsValid(modifications, idleTime, serverTimeElapsed) {
+async function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) {
+    const { GamestateVariables } = await import('../src/game-logic/gamestate-variables.js')
+
     const totalDeltaTime = countTime(modifications) + idleTime
-    return totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
+    const clickCount = modifications.filter(m => m.modification === GamestateVariables.PEKONI).length
+    
+    // Click frequency doesn't exceed MAX_CLICKS_PER_SECOND
+    const clickCountIsValid = clickCount * 1000 / totalDeltaTime <= MAX_CLICKS_PER_SECOND
+
+    // Total time spent doesn't exceed MAX_DELTA_TIME_SUM
+    const totalDeltaTimeIsValid = totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
+    
+    if (!clickCountIsValid) {console.log(`Clicked too many times: ${clickCount}`)}
+    if (!totalDeltaTimeIsValid) {console.log(
+        `Too much time between updates: ${(totalDeltaTime / 1000).toFixed(1)} seconds.\n\
+        Maximum is ${(MAX_DELTA_TIME_SUM / 1000).toFixed(1)} seconds.`
+    )}
+
+    return clickCountIsValid && totalDeltaTimeIsValid
 }
 
 async function writeToDatabase(auth, gamestate, timestamp) {
@@ -58,10 +75,11 @@ async function writeToDatabase(auth, gamestate, timestamp) {
 }
 
 async function readFromDatabase(auth) {
-    return admin
+    return (await admin
         .firestore()
-        .collection('users')
-        .get(auth.uid)
+        .doc(`users/${auth.uid}`)
+        .get('server'))
+        .data()
 }
 
 /**
@@ -70,33 +88,55 @@ async function readFromDatabase(auth) {
  * May or may not update gamestate to database depending on validity.
  * Always returns a valid new gamestate (or an empty one).
  */
-const verifyGamestate = functions.https.onCall(async (data, context) => {
+const verifyGamestate = functions.https.onCall(async (args, context) => {
     const { Gamestate } = await import('../src/game-logic/gamestate.js')
 
     // Return empty gamestate if user is not authenticated. 
-    if (!context?.auth?.uid) {return console.log("no auth") || new Gamestate()}
-    console.log(context.auth.uid)
+    if (!context?.auth?.uid) {
+        console.log("No authentication")
+        return new Gamestate()
+    }
 
-    const { modifications = [], idleTimeAfterModifications = 0 } = data
-    
-    // Get old gamestate and previous update time from database.
-    let { gamestate: plainGamestate, timestamp } = await readFromDatabase(context.auth)
+    const { modifications = [], idleTimeAfterModifications = 0 } = args
+
+    /** 
+     * Read gamestate and timestamp from database.
+     * ?? {} is there because readFromDatabase might return undefined.
+    */
+    let {gamestate: plainGamestate, timestamp} = await readFromDatabase(context.auth) ?? {}
+    //console.log("Old gamestate from database:", plainGamestate, timestamp)
+
+    // Convert plain JS object into Gamestate class instance
     const oldGamestate = new Gamestate(plainGamestate)
 
     const currentTime = Date.now()
-
-    /* Timestamp can be null if it's the user's first update.
-    * Therefore we assume the time to be MAX_DELTA_TIME_SUM milliseconds before the current time
+    /**
+     * Timestamp can be null if it's the user's first update.
+     * Therefore we assume the time to be MAX_DELTA_TIME_SUM milliseconds before the current time
     */
     timestamp = timestamp ?? currentTime - MAX_DELTA_TIME_SUM
 
-    if (!totalDeltaTimeIsValid(modifications, idleTimeAfterModifications, currentTime - timestamp)) { return oldGamestate }
 
+    /**
+     * Return old gamestate from database if the user hasn't sent an update in MAX_DELTA_TIME_SUM
+     * or if the time spent by the client is longer than the server time since the previous update.
+     * This is necessary to prevent cheating.
+    */
+    if (!(await spentTimeAndClicksAreValid(modifications, idleTimeAfterModifications, currentTime - timestamp))) {
+        console.log("spentTimeAndClicksAreValid is not valid!")
+        return oldGamestate
+    }
+
+    /**
+     * Build new gamestate by applying modifications to the old one.
+     * This will be equal to the old gamestate if the modifications couldn't be applied (attempted cheating or a bug).
+     */
     const newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
-    // return old stored state if new state couldn't be generated
     
+    // Gamestate has to be converted to a plain JS object to write it to Firestore.
     writeToDatabase(context.auth, {...newGamestate}, currentTime)
 
+    // Return updated and verified gamestate to client
     return newGamestate
 });
 
