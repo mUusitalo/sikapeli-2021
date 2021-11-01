@@ -21,7 +21,7 @@ function App() {
     <div className="App">
       <header>
         <div class="empty"></div>
-        <h1 id="game-title">Sikapeli 2021</h1>
+        <h1 id="game-title">Sikaclick</h1>
         <div id="sign-in">
         <SignOut />
         <section>
