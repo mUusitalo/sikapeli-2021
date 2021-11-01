@@ -15,15 +15,20 @@ const db = getFirestore()
 function App() {
   const [ user ] = useAuthState(auth);
 
+  document.title = "Sikapeli"
+
   return (
     <div className="App">
       <header>
-        <SignOut/>
-        <section id='sign-in'>
-            {user ? <SignedInComponent/> : <SignIn/>}
+        <div class="empty"></div>
+        <h1 id="game-title">Sikapeli 2021</h1>
+        <div id="sign-in">
+        <SignOut />
+        <section>
+          {user ? <SignedInComponent/> : <SignIn/>}
         </section>
+        </div>
       </header>
-      <h1 id='game-title'>Sikapeli 2021</h1>
       {user ? <Game uid={user.uid} db={db}/> : <h1>Kirjaudu sisään pelataksesi</h1>}
     </div>
   );

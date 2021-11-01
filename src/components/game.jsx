@@ -6,7 +6,8 @@ import firebaseEnv from '../firebase-env.js'
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
-import { PurchaseButton, } from './purchaseButton.jsx'
+import { Store, } from './store.jsx'
+
 import { useAnimationFrame } from "../hooks/use-animation-frame";
 import { readGamestate, saveGamestate } from "../firebase/database-service";
 
@@ -46,29 +47,9 @@ const Game = ({uid, db}) => {
     return (
         <>
             <div id='game'>
-                <div id='items'>
-                    {Object.values(GamestateVariables)
-                           .filter((variable) =>
-                                variable!=GamestateVariables.PEKONI && variable!=GamestateVariables.RESET)
-                           .map((variable) =>
-                                <p key={variable}> {variable}: {gamestate[variable]} </p>)}
-                </div>
-                <div>
-                 <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toFixed(2)}</p>
-                 <SikaKuva handleClick={() => setGamestateAndLogModification(GamestateVariables.PEKONI)}/>
-                </div>
-                <div id='store'>
-                    {Object.values(GamestateVariables)
-                    .filter(variable => variable !== GamestateVariables.PEKONI)
-                    .map((variable) =>
-                        <PurchaseButton
-                            key={variable}
-                            gamestate={gamestate}
-                            generator={variable}
-                            onClick={() => setGamestateAndLogModification(variable)}
-                            canBuy={gamestate.canBuy(variable)}
-                    />)}
-                </div>
+                <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toExponential(4)}</p>
+                <SikaKuva handleClick={() => {setGamestateAndLogModification(gamestate.add(GamestateVariables.PEKONI))}}/>
+                <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(gamestate.add(x))}/></div>
             </div>
             <DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>
         </>

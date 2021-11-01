@@ -1,53 +1,223 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 header {
-  display: flex;
-  flex-direction: row-reverse;
-}
-
-body {
-  background-image: url("./assets/sika_background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #282c34;
-  color: white;
-  font-family: 'Rye', cursive;
-  text-align: center;
-}
-
-#game {
   display: grid;
-  grid-template-columns: 15vw 70vw 15vw;
+  font-size: 5px;
+  height: 11vh;
+  grid-template-columns: 3fr 10fr 3fr;
+  grid-template-areas:
+      "empty title sign-in";
 }
 
-#store {
-  display: flex;
-  flex-direction: column;
-  margin:  0px;
+.empty {
+  grid-area: empty;
 }
 
 #sign-in {
   display: flex;
   flex-direction: row-reverse;
+  grid-area: sign-in;
 }
 
 #game-title {
-  font-size: 100px;
-  margin-top: 0;
-  margin-bottom: 0;
+  display: block;
+  margin: auto;
+  font-size: 8vh;
+  grid-area: title;
+}
+
+
+body {
+  background-image: url("./assets/sika_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: 'Rye', cursive;
+  text-align: center;
+}
+
+button {
+  border-radius: 10px;
+  border-color: #C3976A;
+  border-width: 4px;
+  background-color: #924A36;
+  color:  white;
+  font-family: 'Rye', cursive;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+#game {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+      "counter counter"
+      "sika store";
+  justify-items: center;
+  align-items: center;
 }
 
 #sika-img {
   display: block;
   margin: auto;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  height: 400px;
-  width: 400px;
+  /*padding: 5vh 0px 5vh 0px;*/
+  height: 30vw;
+  width: 30vw;
+  grid-area: sika;
+}
+
+#sika-img[animated='1'] {
+  animation: click;
+  animation-duration: 0.1s;
+
+}
+
+
+#store {
+  /*background-image: url("./assets/wood.jpg");*/
+  border-color: #C3976A;
+  border-radius: 10px;
+  grid-area: store;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.store-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2vw;
+}
+
+.icon {
+  display: block;
+  margin:  auto;
+  width:  3vw;
+  height: 3vw;
+}
+
+.item-info{
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5vw;
+}
+
+.item-info-with-icon {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-price {
+  display: block;
+  margin:  auto auto auto 0;
+}
+
+.item-name {
+  display: block;
+  margin:  auto auto auto 0;
 }
 
 #bacon-counter {
-  font-size: 50px;
-  margin-top: 0px;
+  font-size: 40px;
+  margin-top: 10px;
   margin-bottom: 0px;
+  grid-area: counter;
+}
+
+@media (max-width: 800px) {
+  #game-title{
+    font-size: 4vh;
+    margin-top: 0vh;
+  }
+
+  #sign-in {
+    justify-self: left;
+    flex-direction: column;
+    font-size: 10px;
+  }
+
+  #game{
+    grid-template-rows: 8vh 37vh 36vh;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "counter"
+      "sika"
+      "store";
+  }
+
+  #bacon-counter{
+    font-size: 5vh;
+    margin-top: 0px;
+  }
+
+  #sika-img {
+    height: 42vh;
+    width: 42vh;
+  }
+
+
+  #store {
+  }
+
+
+  #sika-img[animated='1'] {
+    animation: click-mobile;
+    animation-duration: 0.1s;
+  }
+  .item-price{
+    font-size: 1.8vh;
+  }
+  .item-name {
+    font-size: 1.5vh;
+  }
+
+  .item-amount {
+    font-size: 3vh;
+  }
+
+  .icon {
+    width: 5vh;
+    height: 5vh;
+  }
+
+}
+
+
+
+@keyframes click {
+  0% {
+    width:  30vw;
+    height: 30vw;
+  }
+  50% {
+    width:  35vw;
+    height: 35vw;
+    padding-top: 0vw;
+    padding-bottom: 0vw;
+  }
+  100% {
+    width:  30vw;
+    height: 30vw;
+  }
+}
+
+@keyframes click-mobile {
+  0% {
+    width:  42vh;
+    height: 42vh;
+  }
+  50% {
+    width:  45vh;
+    height: 45vh;
+  }
+  100% {
+    width:  42vh;
+    height: 42vh;
+  }
 }
