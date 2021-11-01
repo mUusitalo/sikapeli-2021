@@ -47,7 +47,7 @@ class Gamestate {
             default:
                 // This function was called with something not in the GamestateVariables enum for whatever reason
                 if (!(Object.values(GamestateVariables).includes(gamestateVariable))) {
-                    throw new Error(`Invalid gamestate variable: ${gamestateVariable}`)
+                    throw new Error(`Invalid gamestate variable: ${JSON.stringify(gamestateVariable)}`)
                 }
 
                 return this.buy(gamestateVariable)

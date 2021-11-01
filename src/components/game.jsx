@@ -1,6 +1,6 @@
 import { useState, } from "react";
 import { initializeApp } from 'firebase/app';
-import { getFunctions, httpsCallable } from 'firebase/functions'
+import { getFunctions, httpsCallable, connectFunctionsEmulator } from 'firebase/functions'
 
 import firebaseEnv from '../firebase-env.js'
 import { Gamestate, } from '../game-logic/gamestate'
@@ -13,6 +13,7 @@ import { readGamestate, saveGamestate } from "../firebase/database-service";
 
 
 const functions = getFunctions(initializeApp(firebaseEnv));
+connectFunctionsEmulator(functions, 'localhost', 5001)
 const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
 
 const Game = ({uid, db}) => {
@@ -48,8 +49,8 @@ const Game = ({uid, db}) => {
         <>
             <div id='game'>
                 <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toExponential(4)}</p>
-                <SikaKuva handleClick={() => {setGamestateAndLogModification(gamestate.add(GamestateVariables.PEKONI))}}/>
-                <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(gamestate.add(x))}/></div>
+                <SikaKuva handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
+                <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(x)}/></div>
             </div>
             <DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>
         </>

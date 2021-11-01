@@ -53,7 +53,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: 8vh 35vw;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -168,7 +168,7 @@ button:disabled {
 
   #sika-img[animated='1'] {
     animation: click-mobile;
-    animation-duration: 0.1s;
+    animation-duration: 0.02s;
   }
   .item-price{
     font-size: 1.8vh;
@@ -198,8 +198,6 @@ button:disabled {
   50% {
     width:  35vw;
     height: 35vw;
-    padding-top: 0vw;
-    padding-bottom: 0vw;
   }
   100% {
     width:  30vw;

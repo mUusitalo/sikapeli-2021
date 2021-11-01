@@ -5,7 +5,7 @@ const Store = (({gamestate, handleClick}) => {
     return(
     Object.values(GamestateVariables)
           .filter(variable => variable !== GamestateVariables.PEKONI)
-          .map((variable) => <StoreItem gamestate={gamestate} generator={variable} onClick={() => handleClick(variable)}/>)
+          .map((variable) => <StoreItem key={variable} gamestate={gamestate} generator={variable} onClick={() => handleClick(variable)}/>)
     )
 })
 
