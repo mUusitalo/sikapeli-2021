@@ -12,8 +12,8 @@ class Gamestate {
         })
     }
 
-    copyAndRaisePropertyByOne(gamestateVariable) {
-        return new Gamestate({...this, [gamestateVariable]: this[gamestateVariable] + 1})
+    copyAndRaiseProperty(gamestateVariable, count=1) {
+        return new Gamestate({...this, [gamestateVariable]: this[gamestateVariable] + count})
     }
 
     canBuy(gamestateVariable) {
@@ -26,20 +26,21 @@ class Gamestate {
             throw new Error(`Not enough currency for ${gamestateVariable}`)
         }
 
-        let newState = this.copyAndRaisePropertyByOne(gamestateVariable)
+        let newState = this.copyAndRaiseProperty(gamestateVariable)
         newState[GamestateVariables.PEKONI] -= calculatePrice(gamestateVariable, newState[gamestateVariable])
         
         return newState
     }
 
-    add(gamestateVariable) {
+    add(gamestateVariable, count=1) {
         switch(gamestateVariable) {
             // Clicked the pig
             case GamestateVariables.PEKONI:
-                return this.copyAndRaisePropertyByOne(GamestateVariables.PEKONI)
+                return this.copyAndRaiseProperty(GamestateVariables.PEKONI, count)
             
             // Bought reset
             case GamestateVariables.RESET:
+                if (count !== 1) { throw new Error(`count must be 1 if adding resets, count: ${count}`)}
                 // TODO Implement resets
                 throw new Error("Resetit ei toimi vielä! Jos tää lipsui pelin tuotantoversioon, oon pahoillani 😀 Ota yhteyttä sikatiimiin ASAP, pliis!")
             
@@ -49,7 +50,7 @@ class Gamestate {
                 if (!(Object.values(GamestateVariables).includes(gamestateVariable))) {
                     throw new Error(`Invalid gamestate variable: ${JSON.stringify(gamestateVariable)}`)
                 }
-
+                if (count !== 1) { throw new Error(`count must be 1 if adding anything other than PEKONI, count: ${count}`)}
                 return this.buy(gamestateVariable)
         }
     }
