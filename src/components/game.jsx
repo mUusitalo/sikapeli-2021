@@ -2,7 +2,7 @@ import { useState, } from "react";
 import { initializeApp } from 'firebase/app';
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from 'firebase/functions'
 
-import firebaseEnv from '../firebase-env.js'
+import firebaseConfig from '../firebase-config.js'
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
@@ -12,7 +12,7 @@ import { useAnimationFrame } from "../hooks/use-animation-frame";
 import { readGamestate, saveGamestate } from "../firebase/database-service";
 
 
-const functions = getFunctions(initializeApp(firebaseEnv));
+const functions = getFunctions(initializeApp(firebaseConfig));
 connectFunctionsEmulator(functions, 'localhost', 5001)
 const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
 
