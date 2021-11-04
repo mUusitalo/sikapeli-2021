@@ -25,6 +25,11 @@ class Gamestate {
         if (!this.canBuy(gamestateVariable)) {
             throw new Error(`Not enough currency for ${gamestateVariable}`)
         }
+        
+        // This could be a lot prettier but it works.
+        if (gamestateVariable === GamestateVariables.RESET) {
+            return new Gamestate({[GamestateVariables.RESET]: this[GamestateVariables.RESET] + 1})
+        }
 
         let newState = this.copyAndRaiseProperty(gamestateVariable)
         newState[GamestateVariables.PEKONI] -= calculatePrice(gamestateVariable, newState[gamestateVariable])
@@ -38,13 +43,6 @@ class Gamestate {
             case GamestateVariables.PEKONI:
                 return this.copyAndRaiseProperty(GamestateVariables.PEKONI, count)
             
-            // Bought reset
-            case GamestateVariables.RESET:
-                if (count !== 1) { throw new Error(`count must be 1 if adding resets, count: ${count}`)}
-                // TODO Implement resets
-                throw new Error("Resetit ei toimi vielä! Jos tää lipsui pelin tuotantoversioon, oon pahoillani 😀 Ota yhteyttä sikatiimiin ASAP, pliis!")
-            
-            // Bought anything else
             default:
                 // This function was called with something not in the GamestateVariables enum for whatever reason
                 if (!(Object.values(GamestateVariables).includes(gamestateVariable))) {
