@@ -1,5 +1,5 @@
-import { GamestateVariables } from "./gamestate-variables.js";
-import { generatorSpecs } from "./generators.js";
+const { GamestateVariables } = require('./gamestate-variables.js');
+const { generatorSpecs } = require('./generators.js');
 
 const RESET_PRICE = Math.pow(10, 15)
 const PRICE_BASE_MULTIPLIER = 2
@@ -23,4 +23,4 @@ function calculatePrice(gamestateVariable, variableCount) {
     }
 }
 
-export { calculatePrice }
+module.exports = { calculatePrice }

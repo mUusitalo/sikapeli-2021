@@ -1,4 +1,4 @@
-import { GamestateVariables } from "./gamestate-variables.js"
+const { GamestateVariables } = require('./gamestate-variables.js') 
 
 const generatorSpecs = {
     [GamestateVariables.REVOLVERI]: {
@@ -42,4 +42,4 @@ const generatorSpecs = {
     },
 }
 
-export { generatorSpecs, }
+module.exports = { generatorSpecs }

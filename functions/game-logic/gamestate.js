@@ -1,6 +1,6 @@
-import { GamestateVariables } from './gamestate-variables.js';
-import { calculatePrice } from './purchase-logic.js';
-import { generatorSpecs } from './generators.js';
+const { GamestateVariables } = require('./gamestate-variables.js');
+const { calculatePrice } = require('./purchase-logic.js');
+const { generatorSpecs } = require('./generators.js');
 
 class Gamestate {
     /**
@@ -71,4 +71,4 @@ class Gamestate {
     }
 }
 
-export { Gamestate }
+module.exports = { Gamestate }

@@ -2,6 +2,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
+const { GamestateVariables } = require('./game-logic/gamestate-variables.js')
+const { Gamestate } = require('./game-logic/gamestate.js')
+
 admin.initializeApp();
 
 const MARGIN_OF_ERROR_IN_MILLISECONDS = 5000 // 5 seconds
@@ -47,7 +50,6 @@ function countTime(modifications) {
  * Check that the total passed time in modifications is defined and below MAX_DELTA_TIME_SUM
  */
 async function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) {
-    const { GamestateVariables } = await import('./game-logic/gamestate-variables.js')
 
     const totalDeltaTime = countTime(modifications) + idleTime
     const clickCount = modifications
@@ -92,7 +94,6 @@ async function readFromDatabase(auth) {
  * Always returns a valid new gamestate (or an empty one).
  */
 const verifyGamestate = functions.https.onCall(async (args, context) => {
-    const { Gamestate } = await import('./game-logic/gamestate.js')
 
     // Return empty gamestate if user is not authenticated. 
     if (!context?.auth?.uid) {

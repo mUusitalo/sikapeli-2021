@@ -12,4 +12,4 @@ const GamestateVariables = {
 }
 Object.freeze(GamestateVariables)
 
-export { GamestateVariables, }
+module.exports = { GamestateVariables, }
