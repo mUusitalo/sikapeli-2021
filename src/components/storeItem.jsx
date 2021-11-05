@@ -10,7 +10,7 @@ const StoreItem = ({gamestate, generator, onClick}) =>(
 			<div class="item-info">
 				<div class="item-name">{generator}</div>
 				<div class="item-price">
-					{calculatePrice(generator, gamestate[generator]+1).toExponential(2)}
+					{gamestate.formatNumber(calculatePrice(generator, gamestate[generator]+1))}
 					<img class="price-icon" src={Icons[GamestateVariables.PEKONI]}/>
 				</div>
 			</div>

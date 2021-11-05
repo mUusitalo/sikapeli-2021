@@ -50,13 +50,13 @@ const Game = ({uid, db}) => {
         <>
             <div id='game'>
                 <div id="counter">
-                    <div id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toExponential(4)} <img class="counter-icon" src={Icons[GamestateVariables.PEKONI]}/></div>
+                    <div id='bacon-counter'>{gamestate.formatNumber(gamestate[GamestateVariables.PEKONI])} <img class="counter-icon" src={Icons[GamestateVariables.PEKONI]}/></div>
                     <div id='bacon-per-second'>{gamestate.calculateBaconPerSecond().toFixed(1)} <img class="bpc-icon" src={Icons[GamestateVariables.PEKONI]}/>/S</div>
                 </div>
                 <SikaKuva handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
                 <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(x)}/></div>
             </div>
-            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>
+            {/*<DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>*/}
         </>
     )
 }

@@ -1,18 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
-import { getAnalytics } from 'firebase/analytics'
-import { getPerformance } from 'firebase/performance'
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-import firebaseConfig from './firebase-config.js'
+import firebaseEnv from './firebase-config.js'
 import { Game } from './components/game.jsx'
 
-const firebaseApp = initializeApp(firebaseConfig)
-const analytics = getAnalytics(firebaseApp);
-const performance = getPerformance(firebaseApp)
+const firebaseApp = initializeApp(firebaseEnv)
 const auth = getAuth(firebaseApp);
 const db = getFirestore()
 
@@ -56,7 +52,7 @@ function SignIn() {
 
 const SignedInComponent = () => (
   <>
-    <p>JEEJEE kirjautunut sisään 😎</p>
+    <p>{/*JEEJEE kirjautunut sisään 😎*/}</p>
   </>
 )
 

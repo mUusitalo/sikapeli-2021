@@ -8,7 +8,7 @@ import SALUUNA_IMG from "../assets/saluuna.png"
 import KYLA_IMG from "../assets/kyla.png"
 import KULTAKAIVOS_IMG from "../assets/kultakaivos.png"
 import SIKAIMPERIUMI_IMG from "../assets/sikaimperiumi.png"
-import SIKALAUMA_IMG from "../assets/sikalauma.jpg"
+import SIKALAUMA_IMG from "../assets/sikalauma.png"
 import SIKAFARMI_IMG from "../assets/sikafarmi.png"
 
 const Icons = {
