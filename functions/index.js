@@ -4,12 +4,9 @@ const admin = require('firebase-admin');
 
 const { GamestateVariables } = require('./game-logic/gamestate-variables.js')
 const { Gamestate } = require('./game-logic/gamestate.js')
+const { MARGIN_OF_ERROR_IN_MILLISECONDS, MAX_DELTA_TIME_SUM, MAX_CLICKS_PER_SECOND } = require('./constants.js')
 
 admin.initializeApp();
-
-const MARGIN_OF_ERROR_IN_MILLISECONDS = 5000 // 5 seconds
-const MAX_DELTA_TIME_SUM = 300000 // 5 minutes
-const MAX_CLICKS_PER_SECOND = 50
 
 /**
  * Adds all of the given modifications to the given gamestate.
