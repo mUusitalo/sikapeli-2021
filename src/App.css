@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 :root {
-  --sika-size: 37vw;
+  --sika-size: 45vw;
   --click-size: 7vw;
 }
 
@@ -10,7 +10,7 @@ header {
   display: grid;
   font-size: 5px;
   align-items: center;
-  grid-template-columns: 15vw 60vw 15vw;
+  grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 11vh;
   grid-template-areas:
       "empty title sign-in";
@@ -33,10 +33,6 @@ header {
 
 
 body {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
   background-image: url("./assets/sika_background.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -44,6 +40,7 @@ body {
   font-family: 'Rye', cursive;
   text-align: center;
   align-items: center;
+  justify-items: center;
 }
 
 html,body
@@ -72,7 +69,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 13vh 30vw;
+  grid-template-rows: 13vh var(--sika-size);
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -82,33 +79,17 @@ button:disabled {
 }
 
 #sika-img-div {
-  padding-top: 5vh;
-  align-items: center;
-  justify-content: center;
+  padding-top: 10vh;
   grid-area: sika;
 }
 
 #sika-background {
   position: relative;
-  animation: spin;
-  animation-duration: 15s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  animation: spin 15s linear infinite;
 
   margin-top: -80%;
   z-index: 1;
 }
-
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 
 #sika-img {
   position: relative;
@@ -142,14 +123,15 @@ button:disabled {
 .icon {
   display: block;
   margin:  auto;
-  width:  3vw;
-  height: 3vw;
+  width:  5vw;
+  height: 5vw;
 }
 
 .item-info{
   display: flex;
   flex-direction: column;
   margin-left: 0.5vw;
+  justify-items: left;
 }
 
 .item-info-with-icon {
@@ -157,7 +139,7 @@ button:disabled {
   flex-direction: row;
 }
 
-.item-price {
+.item-price, .item-name {
   display: flex;
   margin:  auto auto auto 0;
   flex-direction: row;
@@ -170,11 +152,11 @@ button:disabled {
   margin-top: 2px;
 }
 
-
-.item-name {
-  display: block;
-  margin:  auto auto auto 0;
+.item-amount {
+  font-size: 3vw;
 }
+
+
 
 #counter {
   display: flex;
@@ -183,24 +165,21 @@ button:disabled {
   grid-area: counter;
 }
 
-#bacon-counter {
+#bacon-counter, .bacon-per-second {
   display: flex;
   flex-direction: row;
   font-size: 5vh;
-  margin: 0px;
 }
 
 .counter-icon {
   width: 5vh;
   height: 5vh;
   margin-left: 5px;
+  margin-top: 0.3vh;
 }
 
 .bacon-per-second {
-  display: flex;
-  flex-direction: row;
   font-size: 3vh;
-  margin: 0px;
 }
 
 .bpc-icon {
@@ -227,7 +206,7 @@ button:disabled {
 
   #game{
     grid-template-rows: 8vh 39vh 39vh;
-    grid-template-columns: 90vw;
+    grid-template-columns: 100vw;
     grid-template-areas:
       "counter"
       "sika"
@@ -236,15 +215,9 @@ button:disabled {
 
   #bacon-counter{
     font-size: 4vh;
-    margin-top: 0px;
   }
 
-  #sika-img {
-    height: 42vh;
-    width: 42vh;
-  }
-
-  .item-price{
+  .item-price {
     font-size: 1.8vh;
   }
 
@@ -252,8 +225,9 @@ button:disabled {
     width: 1.8vh;
     height: 1.8vh;
   }
+
   .item-name {
-    font-size: 1.7vh;
+    font-size: 1.6vh;
   }
 
   .item-amount {
@@ -261,12 +235,20 @@ button:disabled {
   }
 
   .icon {
-    width: 5vh;
-    height: 5vh;
+    width: 6vh;
+    height: 6vh;
   }
 
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes click {
   0% {
