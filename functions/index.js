@@ -47,7 +47,7 @@ function countTime(modifications) {
  * Check that the total passed time in modifications is defined and below MAX_DELTA_TIME_SUM
  */
 async function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) {
-    const { GamestateVariables } = await import('../src/game-logic/gamestate-variables.js')
+    const { GamestateVariables } = await import('./game-logic/gamestate-variables.js')
 
     const totalDeltaTime = countTime(modifications) + idleTime
     const clickCount = modifications
@@ -92,7 +92,7 @@ async function readFromDatabase(auth) {
  * Always returns a valid new gamestate (or an empty one).
  */
 const verifyGamestate = functions.https.onCall(async (args, context) => {
-    const { Gamestate } = await import('../src/game-logic/gamestate.js')
+    const { Gamestate } = await import('./game-logic/gamestate.js')
 
     // Return empty gamestate if user is not authenticated. 
     if (!context?.auth?.uid) {
