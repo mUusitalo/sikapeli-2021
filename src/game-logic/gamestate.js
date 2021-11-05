@@ -28,6 +28,7 @@ class Gamestate {
         
         // This could be a lot prettier but it works.
         if (gamestateVariable === GamestateVariables.RESET) {
+            // Create new gamestate with resets += 1 and everything else 0
             return new Gamestate({[GamestateVariables.RESET]: this[GamestateVariables.RESET] + 1})
         }
 
