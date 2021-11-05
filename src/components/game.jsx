@@ -1,4 +1,4 @@
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import { useAnimationFrame } from "../hooks/use-animation-frame";
 import { readGamestate, saveGamestate } from "../firebase/database-service";
 
@@ -15,8 +15,20 @@ const Game = ({uid, db}) => {
     const [modifications, setModifications] = useState([])
     const [previousModificationTime, setPreviousModificationTime] = useState(Date.now())
 
+    useEffect(async () => {
+        setGamestate(new Gamestate(await readGamestate({uid, db})))
+    }, [])
+
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
 
+    const handleVerify = (verifiedGamestate, timestamp) => {
+        console.log(verifiedGamestate, timestamp)
+        setModifications([])
+        setGamestate(verifiedGamestate)
+        setPreviousModificationTime(timestamp)
+    }
+
+    
     const setGamestateAndLogModification = (modification) => {
         setGamestate(gamestate.add(modification))
         
@@ -33,12 +45,7 @@ const Game = ({uid, db}) => {
         setModifications([...modifications, modificationLogEntry])
     }
 
-    const handleVerify = (verifiedGamestate, timestamp) => {
-        console.log(verifiedGamestate, timestamp)
-        setModifications([])
-        setGamestate(verifiedGamestate)
-        setPreviousModificationTime(timestamp)
-    }
+
 
     return (
         <>
