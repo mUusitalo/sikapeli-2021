@@ -1,4 +1,4 @@
-import { getFunctions, httpsCallable, connectFunctionsEmulator } from 'firebase/functions'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 import { initializeApp } from 'firebase/app';
 
 import firebaseConfig from '../firebase-config.js'
@@ -6,7 +6,7 @@ import { GamestateVariables } from '../game-logic/gamestate-variables.js'
 import { Gamestate } from '../game-logic/gamestate.js';
 
 const functions = getFunctions(initializeApp(firebaseConfig));
-connectFunctionsEmulator(functions, 'localhost', 5001)
+//connectFunctionsEmulator(functions, 'localhost', 5001)
 const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
 
 /**

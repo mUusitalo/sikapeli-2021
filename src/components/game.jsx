@@ -1,40 +1,51 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useAnimationFrame } from "../hooks/use-animation-frame";
-import { readGamestate, saveGamestate } from "../firebase/database-service";
+import { readGamestate } from "../firebase/database-service";
 
 
+import { VERIFICATION_FREQUENCY } from '../constants.js';
 import runBackendGamestateVerification from "../utils/verify-gamestate.js";
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { Store, } from './store.jsx'
 
-
 const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
-    const [modifications, setModifications] = useState([])
-    const [previousModificationTime, setPreviousModificationTime] = useState(Date.now())
+    const modificationsRef = useRef([])
+    const previousModificationTimeRef = useRef(Date.now())
 
-    useEffect(async () => {
-        setGamestate(new Gamestate(await readGamestate({uid, db})))
-    }, [])
+    useEffect(() => {
+        readGamestate({uid, db})
+            .then(plainGamestate =>
+                setGamestate(new Gamestate(plainGamestate)))
+    }, [uid, db])
 
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
 
-    const handleVerify = (verifiedGamestate, timestamp) => {
-        console.log(verifiedGamestate, timestamp)
-        setModifications([])
+    const handleVerify = useCallback((verifiedGamestate, timestamp) => {
         setGamestate(verifiedGamestate)
-        setPreviousModificationTime(timestamp)
-    }
+        previousModificationTimeRef.current = timestamp
+        modificationsRef.current = []
+    }, [setGamestate, modificationsRef, previousModificationTimeRef])
 
+    useEffect(() => {
+        // This might need cleanup
+        setInterval(
+            () => runBackendGamestateVerification({
+                modifications: modificationsRef.current,
+                previousModificationTime: previousModificationTimeRef.current,
+                handleVerify
+            }),
+            VERIFICATION_FREQUENCY)
+    }, [modificationsRef, previousModificationTimeRef, handleVerify])
     
     const setGamestateAndLogModification = (modification) => {
         setGamestate(gamestate.add(modification))
         
         const currentTime = Date.now()
-        const deltaTime = currentTime - previousModificationTime
-        setPreviousModificationTime(currentTime)
+        const deltaTime = currentTime - previousModificationTimeRef.current
+        previousModificationTimeRef.current = currentTime
 
         const modificationLogEntry = {
             modification,
@@ -42,10 +53,8 @@ const Game = ({uid, db}) => {
             count: 1
         }
 
-        setModifications([...modifications, modificationLogEntry])
+        modificationsRef.current = [...modificationsRef.current, modificationLogEntry]
     }
-
-
 
     return (
         <>
@@ -54,35 +63,8 @@ const Game = ({uid, db}) => {
                 <SikaKuva handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
                 <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(x)}/></div>
             </div>
-            <DevTools {...{gamestate, uid, db, gameSetter: setGamestate, modifications, previousModificationTime, handleVerify}}/>
         </>
     )
 }
-
-const DevTools = ({gamestate, uid, db, gameSetter, modifications, previousModificationTime, handleVerify}) => (
-    <>
-        <h1>Devtools</h1>
-        <SaveGameButton {...{gamestate, uid, db}}/>
-        <GetSaveButton {...{gameSetter, uid, db}}/>
-        <VerifyGamestateButton {...{modifications, previousModificationTime, handleVerify}}/>
-    </>
-)
-
-const SaveGameButton = ({gamestate, uid, db}) => (
-    <button onClick={() => saveGamestate({gamestate, uid, db})}>
-        Write to database
-    </button>
-)
-
-const GetSaveButton = ({gameSetter, uid, db}) => (
-    <button onClick={async () => 
-        gameSetter(new Gamestate(await readGamestate({uid, db})))}>
-        Read from database
-    </button>
-)
-
-const VerifyGamestateButton = (props) => (
-    <button onClick={() => runBackendGamestateVerification(props)}>Verify gamestate</button>
-)
 
 export { Game }

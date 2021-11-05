@@ -65,6 +65,7 @@ async function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeEla
     if (!clickCountIsValid) {console.log(`Clicked too many times: ${clickCount}`)}
     if (!totalDeltaTimeIsValid) {console.log(
         `Too much time between updates: ${(totalDeltaTime / 1000).toFixed(1)} seconds.\n\
+        Server time difference was ${(serverTimeElapsed / 1000).toFixed(1)} seconds.\n\
         Maximum is ${(MAX_DELTA_TIME_SUM / 1000).toFixed(1)} seconds.`
     )}
 
@@ -102,7 +103,6 @@ const verifyGamestate = functions.https.onCall(async (args, context) => {
     }
 
     const { modifications = [], idleTimeAfterModifications = 0 } = args
-
     /** 
      * Read gamestate and timestamp from database.
      * ?? {} is there because readFromDatabase might return undefined.
