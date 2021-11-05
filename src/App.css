@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
+:root {
+  --sika-size: 37vw;
+  --click-size: 7vw;
+}
+
 header {
   display: grid;
   font-size: 5px;
-  height: 11vh;
+  align-items: center;
   grid-template-columns: 3fr 10fr 3fr;
+  grid-template-rows: 11vh;
   grid-template-areas:
       "empty title sign-in";
 }
@@ -20,8 +26,6 @@ header {
 }
 
 #game-title {
-  display: block;
-  margin: auto;
   font-size: 8vh;
   grid-area: title;
 }
@@ -53,7 +57,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 8vh 35vw;
+  grid-template-rows: 13vh 30vw;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -62,24 +66,53 @@ button:disabled {
   align-items: center;
 }
 
-#sika-img {
-  display: block;
-  margin: auto;
-  /*padding: 5vh 0px 5vh 0px;*/
-  height: 30vw;
-  width: 30vw;
+#sika-img-div {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5vh;
+  align-items: center;
+  justify-content: center;
   grid-area: sika;
+}
+
+#sika-background {
+  position: relative;
+  animation: spin;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  margin-top: calc(-1*var(--sika-size));
+  z-index: 1;
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+#sika-img {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-0.5 * var(--click-size));
+  margin-bottom: calc(-0.5 * var(--click-size));
+  height: var(--sika-size);
+  width: var(--sika-size);
 }
 
 #sika-img[animated='1'] {
   animation: click;
-  animation-duration: 0.1s;
-
+  animation-duration: 0.08s;
 }
 
 
 #store {
-  /*background-image: url("./assets/wood.jpg");*/
   border-color: #C3976A;
   border-radius: 10px;
   grid-area: store;
@@ -92,7 +125,7 @@ button:disabled {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 2vw;
+  font-size: 1.7vw;
 }
 
 .icon {
@@ -114,26 +147,65 @@ button:disabled {
 }
 
 .item-price {
-  display: block;
+  display: flex;
   margin:  auto auto auto 0;
+  flex-direction: row;
 }
+
+.price-icon {
+  width: 2vw;
+  height: 2vw;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
 
 .item-name {
   display: block;
   margin:  auto auto auto 0;
 }
 
-#bacon-counter {
-  font-size: 40px;
-  margin-top: 10px;
-  margin-bottom: 0px;
+#counter {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
   grid-area: counter;
 }
 
+#bacon-counter {
+  display: flex;
+  flex-direction: row;
+  font-size: 5vh;
+  margin: 0px;
+}
+
+.counter-icon {
+  width: 5vh;
+  height: 5vh;
+  margin-left: 5px;
+}
+
+.bacon-per-second {
+  display: flex;
+  flex-direction: row;
+  font-size: 3vh;
+  margin: 0px;
+}
+
+.bpc-icon {
+  width: 3vh;
+  height: 3vh;
+  margin-left: 5px;
+}
+
 @media (max-width: 800px) {
+  :root {
+  --sika-size: 42vh;
+  --click-size: 6vh;
+  }
+
   #game-title{
-    font-size: 4vh;
-    margin-top: 0vh;
+    font-size: 5vh;
   }
 
   #sign-in {
@@ -152,7 +224,7 @@ button:disabled {
   }
 
   #bacon-counter{
-    font-size: 5vh;
+    font-size: 4vh;
     margin-top: 0px;
   }
 
@@ -161,15 +233,6 @@ button:disabled {
     width: 42vh;
   }
 
-
-  #store {
-  }
-
-
-  #sika-img[animated='1'] {
-    animation: click-mobile;
-    animation-duration: 0.02s;
-  }
   .item-price{
     font-size: 1.8vh;
   }
@@ -189,33 +252,18 @@ button:disabled {
 }
 
 
-
 @keyframes click {
   0% {
-    width:  30vw;
-    height: 30vw;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
   50% {
-    width:  35vw;
-    height: 35vw;
+    width:  calc(var(--sika-size) + 0.5 * var(--click-size));
+    height: calc(var(--sika-size) + 0.5 * var(--click-size));
+    margin-bottom: calc(-1 * var(--click-size));
   }
   100% {
-    width:  30vw;
-    height: 30vw;
-  }
-}
-
-@keyframes click-mobile {
-  0% {
-    width:  42vh;
-    height: 42vh;
-  }
-  50% {
-    width:  45vh;
-    height: 45vh;
-  }
-  100% {
-    width:  42vh;
-    height: 42vh;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
 }
