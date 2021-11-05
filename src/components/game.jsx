@@ -1,20 +1,14 @@
 import { useState, } from "react";
-import { initializeApp } from 'firebase/app';
-import { getFunctions, httpsCallable, connectFunctionsEmulator } from 'firebase/functions'
+import { useAnimationFrame } from "../hooks/use-animation-frame";
+import { readGamestate, saveGamestate } from "../firebase/database-service";
 
-import firebaseConfig from '../firebase-config.js'
+
+import runBackendGamestateVerification from "../utils/verify-gamestate.js";
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { Store, } from './store.jsx'
 
-import { useAnimationFrame } from "../hooks/use-animation-frame";
-import { readGamestate, saveGamestate } from "../firebase/database-service";
-
-
-const functions = getFunctions(initializeApp(firebaseConfig));
-connectFunctionsEmulator(functions, 'localhost', 5001)
-const verifyGamestate = httpsCallable(functions, 'verifyGamestate')
 
 const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
@@ -31,8 +25,9 @@ const Game = ({uid, db}) => {
         setPreviousModificationTime(currentTime)
 
         const modificationLogEntry = {
-            modification: modification,
-            deltaTime: deltaTime 
+            modification,
+            deltaTime,
+            count: 1
         }
 
         setModifications([...modifications, modificationLogEntry])
@@ -79,18 +74,8 @@ const GetSaveButton = ({gameSetter, uid, db}) => (
     </button>
 )
 
-const VerifyGamestateButton = ({modifications, previousModificationTime, handleVerify}) => (
-    <button onClick={async () => {
-        const currentTime = Date.now()
-        const res = await verifyGamestate({
-            modifications,
-            idleTimeAfterModifications: currentTime - previousModificationTime
-        })
-        const verifiedGamestate = new Gamestate(res.data)
-        handleVerify(verifiedGamestate, currentTime)
-    }}>
-        Verify gamestate
-    </button>
+const VerifyGamestateButton = (props) => (
+    <button onClick={() => runBackendGamestateVerification(props)}>Verify gamestate</button>
 )
 
 export { Game }

@@ -16,8 +16,9 @@ const MAX_CLICKS_PER_SECOND = 50
 function buildGamestate(oldGamestate, modifications, idleTimeAfterModifications) {
     try {
         modifications = addMarginOfError(modifications)
-        return modifications.reduce((state, {deltaTime, modification}) =>
-            state.stepInTime(deltaTime).add(modification), oldGamestate)
+        return modifications
+            .reduce((state, {deltaTime, modification, count}) =>
+                state.stepInTime(deltaTime).add(modification, count), oldGamestate)
             .stepInTime(idleTimeAfterModifications);
     } catch (e) {
         console.log(
@@ -49,7 +50,9 @@ async function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeEla
     const { GamestateVariables } = await import('../src/game-logic/gamestate-variables.js')
 
     const totalDeltaTime = countTime(modifications) + idleTime
-    const clickCount = modifications.filter(m => m.modification === GamestateVariables.PEKONI).length
+    const clickCount = modifications
+        .filter(m => m.modification === GamestateVariables.PEKONI) // Filter our everything except clicks
+        .reduce((t, n) => t + n.count, 0) // Sum count
     
     // Click frequency doesn't exceed MAX_CLICKS_PER_SECOND
     const clickCountIsValid = clickCount * 1000 / totalDeltaTime <= MAX_CLICKS_PER_SECOND
