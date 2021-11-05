@@ -1,17 +1,21 @@
 import { useState, } from "react";
 import SikaImg from "../assets/sika_head.png"
+import SIKA_BACKGROND from '../assets/glow.png'
 
 const SikaKuva = ({handleClick}) => {
 	const [animated, setAnimated] = useState(0)
-	return(<
-			img
-			onClick={() =>{setAnimated(1);
+	return(
+		<div id='sika-img-div'>
+		<img
+		 onClick={() =>{setAnimated(1);
 						   handleClick();}}
-			onAnimationEnd={() => setAnimated(0)}
-			src={SikaImg}
-			id='sika-img'
-			alt='Sian kuva'
-			animated={animated}
-			/>)}
+		 onAnimationEnd={() => setAnimated(0)}
+		 src={SikaImg}
+		 id='sika-img'
+		 alt='Sian kuva'
+		 animated={animated}
+		/>
+		<img id='sika-background' src={SIKA_BACKGROND}/>
+		</div>)}
 
 export {SikaKuva}

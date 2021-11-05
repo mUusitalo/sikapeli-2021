@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
+:root {
+  --sika-size: 37vw;
+  --click-size: 7vw;
+}
+
 header {
   display: grid;
   font-size: 5px;
@@ -61,25 +66,53 @@ button:disabled {
   align-items: center;
 }
 
-#sika-img {
-  display: block;
-  margin: auto;
-  height: 37vw;
-  width: 37w;
-  margin-top: -3.5vh;
-  margin-bottom: -3.5vh;
+#sika-img-div {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5vh;
+  align-items: center;
+  justify-content: center;
   grid-area: sika;
+}
+
+#sika-background {
+  position: relative;
+  animation: spin;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  margin-top: calc(-1*var(--sika-size));
+  z-index: 1;
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+#sika-img {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-0.5 * var(--click-size));
+  margin-bottom: calc(-0.5 * var(--click-size));
+  height: var(--sika-size);
+  width: var(--sika-size);
 }
 
 #sika-img[animated='1'] {
   animation: click;
   animation-duration: 0.08s;
-
 }
 
 
 #store {
-  /*background-image: url("./assets/wood.jpg");*/
   border-color: #C3976A;
   border-radius: 10px;
   grid-area: store;
@@ -166,6 +199,11 @@ button:disabled {
 }
 
 @media (max-width: 800px) {
+  :root {
+  --sika-size: 42vh;
+  --click-size: 6vh;
+  }
+
   #game-title{
     font-size: 5vh;
   }
@@ -195,10 +233,6 @@ button:disabled {
     width: 42vh;
   }
 
-  #sika-img[animated='1'] {
-    animation: click-mobile;
-    animation-duration: 0.08s;
-  }
   .item-price{
     font-size: 1.8vh;
   }
@@ -218,33 +252,18 @@ button:disabled {
 }
 
 
-
 @keyframes click {
   0% {
-    width:  30vw;
-    height: 30vw;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
   50% {
-    width:  35vw;
-    height: 35vw;
+    width:  calc(var(--sika-size) + 0.5 * var(--click-size));
+    height: calc(var(--sika-size) + 0.5 * var(--click-size));
+    margin-bottom: calc(-1 * var(--click-size));
   }
   100% {
-    width:  30vw;
-    height: 30vw;
-  }
-}
-
-@keyframes click-mobile {
-  0% {
-    width:  42vh;
-    height: 42vh;
-  }
-  50% {
-    width:  45vh;
-    height: 45vh;
-  }
-  100% {
-    width:  42vh;
-    height: 42vh;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
 }
