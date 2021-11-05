@@ -1,6 +1,6 @@
-import { GamestateVariables } from './gamestate-variables.js';
-import { calculatePrice } from './purchase-logic.js';
-import { generatorSpecs } from './generators.js';
+const { GamestateVariables } = require('./gamestate-variables.js');
+const { calculatePrice } = require('./purchase-logic.js');
+const { generatorSpecs } = require('./generators.js');
 
 class Gamestate {
     /**
@@ -62,10 +62,6 @@ class Gamestate {
                 0
             )
     }
-
-    formatNumber(number) {
-       return Math.log(number)<10 ? number.toFixed(0) : number.toExponential(2)
-    }
     
     stepInTime(milliseconds) {
         var generatedBacon = this.calculateBaconPerSecond() * (milliseconds / 1000)
@@ -75,4 +71,4 @@ class Gamestate {
     }
 }
 
-export { Gamestate }
+module.exports = { Gamestate }
