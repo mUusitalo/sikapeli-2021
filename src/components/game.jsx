@@ -9,6 +9,7 @@ import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
 import { Store, } from './store.jsx'
+import { Icons, } from './icons.jsx'
 
 const Game = ({uid, db}) => {
     const [gamestate, setGamestate] = useState(new Gamestate())
@@ -59,7 +60,10 @@ const Game = ({uid, db}) => {
     return (
         <>
             <div id='game'>
-                <p id='bacon-counter'>{gamestate[GamestateVariables.PEKONI].toExponential(4)}</p>
+                <div id="counter">
+                    <div id='bacon-counter'>{gamestate.formatNumber(gamestate[GamestateVariables.PEKONI])} <img class="counter-icon" src={Icons[GamestateVariables.PEKONI]}/></div>
+                    <div id='bacon-per-second'>{gamestate.calculateBaconPerSecond().toFixed(1)} <img class="bpc-icon" src={Icons[GamestateVariables.PEKONI]}/>/S</div>
+                </div>
                 <SikaKuva handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
                 <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(x)}/></div>
             </div>

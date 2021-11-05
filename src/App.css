@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
+:root {
+  --sika-size: 45vw;
+  --click-size: 7vw;
+}
+
+
 header {
   display: grid;
   font-size: 5px;
-  height: 11vh;
-  grid-template-columns: 3fr 10fr 3fr;
+  align-items: center;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 11vh;
   grid-template-areas:
       "empty title sign-in";
 }
@@ -20,8 +27,6 @@ header {
 }
 
 #game-title {
-  display: block;
-  margin: auto;
   font-size: 8vh;
   grid-area: title;
 }
@@ -34,6 +39,17 @@ body {
   color: white;
   font-family: 'Rye', cursive;
   text-align: center;
+  align-items: center;
+  justify-items: center;
+}
+
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
 }
 
 button {
@@ -53,7 +69,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 8vh 35vw;
+  grid-template-rows: 13vh var(--sika-size);
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -62,26 +78,35 @@ button:disabled {
   align-items: center;
 }
 
-#sika-img {
-  display: block;
-  margin: auto;
-  /*padding: 5vh 0px 5vh 0px;*/
-  height: 30vw;
-  width: 30vw;
+#sika-img-div {
+  padding-top: 10vh;
   grid-area: sika;
+}
+
+#sika-background {
+  position: relative;
+  animation: spin 15s linear infinite;
+
+  margin-top: -80%;
+  z-index: 1;
+}
+
+#sika-img {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-0.5 * var(--click-size));
+  margin-bottom: calc(-0.5 * var(--click-size));
+  height: var(--sika-size);
+  width: var(--sika-size);
 }
 
 #sika-img[animated='1'] {
   animation: click;
-  animation-duration: 0.1s;
-
+  animation-duration: 0.08s;
 }
 
 
 #store {
-  /*background-image: url("./assets/wood.jpg");*/
-  border-color: #C3976A;
-  border-radius: 10px;
   grid-area: store;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -92,20 +117,21 @@ button:disabled {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 2vw;
+  font-size: 1.7vw;
 }
 
 .icon {
   display: block;
   margin:  auto;
-  width:  3vw;
-  height: 3vw;
+  width:  5vw;
+  height: 5vw;
 }
 
 .item-info{
   display: flex;
   flex-direction: column;
   margin-left: 0.5vw;
+  justify-items: left;
 }
 
 .item-info-with-icon {
@@ -113,27 +139,63 @@ button:disabled {
   flex-direction: row;
 }
 
-.item-price {
-  display: block;
+.item-price, .item-name {
+  display: flex;
   margin:  auto auto auto 0;
+  flex-direction: row;
 }
 
-.item-name {
-  display: block;
-  margin:  auto auto auto 0;
+.price-icon {
+  width: 2vw;
+  height: 2vw;
+  margin-left: 5px;
+  margin-top: 2px;
 }
 
-#bacon-counter {
-  font-size: 40px;
-  margin-top: 10px;
-  margin-bottom: 0px;
+.item-amount {
+  font-size: 3vw;
+}
+
+
+
+#counter {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
   grid-area: counter;
 }
 
+#bacon-counter, .bacon-per-second {
+  display: flex;
+  flex-direction: row;
+  font-size: 5vh;
+}
+
+.counter-icon {
+  width: 5vh;
+  height: 5vh;
+  margin-left: 5px;
+  margin-top: 0.3vh;
+}
+
+.bacon-per-second {
+  font-size: 3vh;
+}
+
+.bpc-icon {
+  width: 3vh;
+  height: 3vh;
+  margin-left: 5px;
+}
+
 @media (max-width: 800px) {
+  :root {
+  --sika-size: 42vh;
+  --click-size: 6vh;
+  }
+
   #game-title{
-    font-size: 4vh;
-    margin-top: 0vh;
+    font-size: 5vh;
   }
 
   #sign-in {
@@ -143,8 +205,8 @@ button:disabled {
   }
 
   #game{
-    grid-template-rows: 8vh 37vh 36vh;
-    grid-template-columns: 100%;
+    grid-template-rows: 8vh 39vh 39vh;
+    grid-template-columns: 100vw;
     grid-template-areas:
       "counter"
       "sika"
@@ -152,29 +214,20 @@ button:disabled {
   }
 
   #bacon-counter{
-    font-size: 5vh;
-    margin-top: 0px;
+    font-size: 4vh;
   }
 
-  #sika-img {
-    height: 42vh;
-    width: 42vh;
-  }
-
-
-  #store {
-  }
-
-
-  #sika-img[animated='1'] {
-    animation: click-mobile;
-    animation-duration: 0.02s;
-  }
-  .item-price{
+  .item-price {
     font-size: 1.8vh;
   }
+
+  .price-icon {
+    width: 1.8vh;
+    height: 1.8vh;
+  }
+
   .item-name {
-    font-size: 1.5vh;
+    font-size: 1.6vh;
   }
 
   .item-amount {
@@ -182,40 +235,33 @@ button:disabled {
   }
 
   .icon {
-    width: 5vh;
-    height: 5vh;
+    width: 6vh;
+    height: 6vh;
   }
 
 }
 
-
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes click {
   0% {
-    width:  30vw;
-    height: 30vw;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
   50% {
-    width:  35vw;
-    height: 35vw;
+    width:  calc(var(--sika-size) + 0.5 * var(--click-size));
+    height: calc(var(--sika-size) + 0.5 * var(--click-size));
+    margin-bottom: calc(-1 * var(--click-size));
   }
   100% {
-    width:  30vw;
-    height: 30vw;
-  }
-}
-
-@keyframes click-mobile {
-  0% {
-    width:  42vh;
-    height: 42vh;
-  }
-  50% {
-    width:  45vh;
-    height: 45vh;
-  }
-  100% {
-    width:  42vh;
-    height: 42vh;
+    width:  var(--sika-size);
+    height: var(--sika-size);
   }
 }
