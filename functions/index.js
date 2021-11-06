@@ -1,5 +1,6 @@
 /* eslint-disable no-multi-str */
 const functions = require('firebase-functions');
+const { logger } = functions
 const admin = require('firebase-admin');
 
 const { GamestateVariables } = require('./game-logic/gamestate-variables.js')
@@ -14,19 +15,11 @@ admin.initializeApp();
  * @param {Array<{deltams: Number, gamestateVariable: String}>} modifications - List of modifications (additions) to the gamestate
  */
 function buildGamestate(oldGamestate, modifications, idleTimeAfterModifications) {
-    try {
-        modifications = addMarginOfError(modifications)
-        return modifications
-            .reduce((state, {deltaTime, modification, count}) =>
-                state.stepInTime(deltaTime).add(modification, count), oldGamestate)
-            .stepInTime(idleTimeAfterModifications);
-    } catch (e) {
-        console.log(
-            "Can't apply modifications to given gamestate.\n\
-            This means that there's a bug or that the player tried to cheat."
-        , e)
-        return oldGamestate;
-    }
+    modifications = addMarginOfError(modifications)
+    return modifications
+        .reduce((state, {deltaTime, modification, count}) =>
+            state.stepInTime(deltaTime).add(modification, count), oldGamestate)
+        .stepInTime(idleTimeAfterModifications);
 }
 
 /**
@@ -59,8 +52,8 @@ function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) 
     // Total time spent doesn't exceed MAX_DELTA_TIME_SUM
     const totalDeltaTimeIsValid = totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
     
-    if (!clickCountIsValid) {console.log(`Clicked too many times: ${clickCount}`)}
-    if (!totalDeltaTimeIsValid) {console.log(
+    if (!clickCountIsValid) {logger.log(`Clicked too many times: ${clickCount}`)}
+    if (!totalDeltaTimeIsValid) {logger.log(
         `Too much time between updates: ${(totalDeltaTime / 1000).toFixed(1)} seconds.\n\
         Server time difference was ${(serverTimeElapsed / 1000).toFixed(1)} seconds.\n\
         Maximum is ${(MAX_DELTA_TIME_SUM / 1000).toFixed(1)} seconds.`
@@ -99,7 +92,7 @@ const verifyGamestate = functions
 
         // Return empty gamestate if user is not authenticated. 
         if (!context?.auth?.uid) {
-            console.log("No authentication")
+            logger.log("No authentication")
             return new Gamestate()
         }
 
@@ -109,7 +102,7 @@ const verifyGamestate = functions
          * ?? {} is there because readFromDatabase might return undefined.
         */
         let {gamestate: plainGamestate, timestamp} = await readFromDatabase(context.auth) ?? {}
-        //console.log("Old gamestate from database:", plainGamestate, timestamp)
+        //logger.log("Old gamestate from database:", plainGamestate, timestamp)
 
         // Convert plain JS object into Gamestate class instance
         const oldGamestate = new Gamestate(plainGamestate)
@@ -128,7 +121,7 @@ const verifyGamestate = functions
          * This is necessary to prevent cheating.
         */
         if (!(spentTimeAndClicksAreValid(modifications, idleTimeAfterModifications, currentTime - timestamp))) {
-            console.log("spentTimeAndClicksAreValid is not valid!")
+            logger.log("spentTimeAndClicksAreValid is not valid!")
             return oldGamestate
         }
 
@@ -136,7 +129,13 @@ const verifyGamestate = functions
          * Build new gamestate by applying modifications to the old one.
          * This will be equal to the old gamestate if the modifications couldn't be applied (attempted cheating or a bug).
          */
-        const newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
+        let newGamestate
+        try {
+            newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
+        } catch(e) {
+            logger.log("Error in buildGamestate: ", {error: e, auth: context.auth})
+            return oldGamestate
+        }
         
         // Gamestate has to be converted to a plain JS object to write it to Firestore.
         writeToDatabase(context.auth, {...newGamestate}, currentTime)
