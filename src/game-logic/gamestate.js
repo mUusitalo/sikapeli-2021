@@ -12,8 +12,8 @@ class Gamestate {
         })
     }
 
-    copyAndRaiseProperty(gamestateVariable, count=1) {
-        return new Gamestate({...this, [gamestateVariable]: this[gamestateVariable] + count})
+    copyAndRaiseProperty(gamestateVariable, amount=1) {
+        return new Gamestate({...this, [gamestateVariable]: this[gamestateVariable] + amount})
     }
 
     canBuy(gamestateVariable) {
@@ -42,7 +42,11 @@ class Gamestate {
         switch(gamestateVariable) {
             // Clicked the pig
             case GamestateVariables.PEKONI:
-                return this.copyAndRaiseProperty(GamestateVariables.PEKONI, count)
+                return this.copyAndRaiseProperty(
+                    gamestateVariable,
+                    // 1% of bacon per second per each KERROIN extra to each click
+                    (1 + this[GamestateVariables.KERROIN] * this.calculateBaconPerSecond() / 100 ) * count
+                )
             
             default:
                 // This function was called with something not in the GamestateVariables enum for whatever reason
