@@ -33,11 +33,13 @@ const Game = ({uid, db}) => {
     useEffect(() => {
         // This might need cleanup
         setInterval(
-            () => runBackendGamestateVerification({
-                modifications: modificationsRef.current,
-                previousModificationTime: previousModificationTimeRef.current,
-                handleVerify
-            }),
+            () => {
+                console.log("Verifying gamestate")
+                runBackendGamestateVerification({
+                    modifications: modificationsRef.current,
+                    previousModificationTime: previousModificationTimeRef.current,
+                    handleVerify
+            })},
             VERIFICATION_FREQUENCY)
     }, [modificationsRef, previousModificationTimeRef, handleVerify])
     
