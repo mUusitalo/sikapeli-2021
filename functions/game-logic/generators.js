@@ -3,42 +3,42 @@ const { GamestateVariables } = require('./gamestate-variables.js')
 const generatorSpecs = {
     [GamestateVariables.REVOLVERI]: {
         rate: 0.4,
-        basePrice: 30
+        basePrice: 39
     },
 
     [GamestateVariables.SALUUNA]: {
         rate: 0.8,
-        basePrice: 120
+        basePrice: 170
     },
 
     [GamestateVariables.COWBOY]: {
-        rate: 1,
-        basePrice: 600
+        rate: 5,
+        basePrice: 800
     },
 
     [GamestateVariables.SIKALAUMA]: {
-        rate: 2,
-        basePrice: 2500
+        rate: 50,
+        basePrice: 6500
     },
 
     [GamestateVariables.SIKAFARMI]: {
-        rate: 5,
-        basePrice: 10000
-    },
-
-    [GamestateVariables.KYLA]: {
-        rate: 25,
+        rate: 300,
         basePrice: 50000
     },
 
+    [GamestateVariables.KYLA]: {
+        rate: 1100,
+        basePrice: 342000
+    },
+
     [GamestateVariables.KULTAKAIVOS]: {
-        rate: 60,
-        basePrice: 200000
+        rate: 5000,
+        basePrice: 1600000
     },
 
     [GamestateVariables.SIKAIMPERIUMI]: {
-        rate: 300,
-        basePrice: 1000000
+        rate: 24000,
+        basePrice: 9000000
     },
 }
 

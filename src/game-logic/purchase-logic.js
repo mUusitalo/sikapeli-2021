@@ -1,10 +1,10 @@
 import { GamestateVariables } from "./gamestate-variables.js";
 import { generatorSpecs } from "./generators.js";
 
-const RESET_BASE_PRICE = Math.pow(10, 15)
-const KERROIN_BASE_PRICE = 500
-const PRICE_BASE_MULTIPLIER = 2
-const BASE_COUNT = 1.10
+const RESET_BASE_PRICE = Math.pow(10, 10)
+const KERROIN_BASE_PRICE = 2500
+const PRICE_BASE_MULTIPLIER = 1
+const BASE_COUNT = 1.15
 
 /**
  * Gets base price of any gamestateVariable except PEKONI
