@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 :root {
-  --sika-size: 45vw;
-  --click-size: 7vw;
+  --sika-size: 40vw;
+  --click-size: 4vw;
 }
 
 
@@ -69,7 +69,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 13vh var(--sika-size);
+  grid-template-rows: 13vh calc(var(--sika-size) - 10vw);
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -88,7 +88,7 @@ button:disabled {
   animation: spin 15s linear infinite;
 
   margin-top: -80%;
-  z-index: 1;
+  z-index: -1;
 }
 
 #sika-img {
@@ -117,14 +117,14 @@ button:disabled {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.7vw;
+  font-size: 1.5vw;
 }
 
 .icon {
   display: block;
   margin:  auto;
-  width:  5vw;
-  height: 5vw;
+  width:  4vw;
+  height: 4vw;
 }
 
 .item-info{
@@ -145,15 +145,19 @@ button:disabled {
   flex-direction: row;
 }
 
+.item-price {
+  font-size: 1vw;
+}
+
 .price-icon {
-  width: 2vw;
-  height: 2vw;
+  width: 1vw;
+  height: 1vw;
   margin-left: 5px;
-  margin-top: 2px;
+  margin-top: -2px;
 }
 
 .item-amount {
-  font-size: 3vw;
+  font-size: 2.5vw;
 }
 
 
@@ -218,10 +222,11 @@ button:disabled {
   }
 
   .item-price {
-    font-size: 1.8vh;
+    font-size: 1.3vh;
   }
 
   .price-icon {
+    margin-top: -2px;
     width: 1.8vh;
     height: 1.8vh;
   }
