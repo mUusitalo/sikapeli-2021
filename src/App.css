@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Smokum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
 :root {
   --sika-size: 35vw;
@@ -39,6 +41,7 @@ body {
   background-repeat: no-repeat;
   color: white;
   font-family: 'Rye', cursive;
+
   text-align: center;
   align-items: center;
   justify-items: center;
@@ -60,7 +63,8 @@ button {
   border-width: 4px;
   background-color: #924A36;
   color:  white;
-  font-family: 'Rye', cursive;
+  font-family: 'rye', cursive;
+
 }
 
 button:disabled {
@@ -71,7 +75,7 @@ button:disabled {
 
 #game {
   display: grid;
-  grid-template-rows: 13vh var(--sika-size);
+  grid-template-rows: 13vh calc(var(--sika-size) - 10vw);
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
       "counter counter"
@@ -98,6 +102,7 @@ button:disabled {
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
+
   margin-top: -100%;
   margin-bottom: -30%;
   z-index: 0;
@@ -129,14 +134,14 @@ button:disabled {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.7vw;
+  font-size: 1.5vw;
 }
 
 .icon {
   display: block;
   margin:  auto;
-  width:  5vw;
-  height: 5vw;
+  width:  4vw;
+  height: 4vw;
 }
 
 .item-info{
@@ -157,15 +162,19 @@ button:disabled {
   flex-direction: row;
 }
 
+.item-price {
+  font-size: 1vw;
+}
+
 .price-icon {
-  width: 2vw;
-  height: 2vw;
+  width: 1vw;
+  height: 1vw;
   margin-left: 5px;
-  margin-top: 2px;
+  margin-top: -2px;
 }
 
 .item-amount {
-  font-size: 3vw;
+  font-size: 2.5vw;
 }
 
 
@@ -174,12 +183,15 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-content: center;
+
   grid-area: counter;
 }
 
 #bacon-counter, .bacon-per-second {
   display: flex;
   flex-direction: row;
+  /*font-family: 'impact', cursive;*/
+  /*font-variant-numeric: tabular-nums;*/
   font-size: 5vh;
 }
 
@@ -231,14 +243,16 @@ button:disabled {
   }
 
   #bacon-counter{
-    font-size: 4vh;
+    font-size: 5vh;
+    font-variant-numeric: tabular-nums;
   }
 
   .item-price {
-    font-size: 1.8vh;
+    font-size: 1.3vh;
   }
 
   .price-icon {
+    margin-top: -2px;
     width: 1.8vh;
     height: 1.8vh;
   }
