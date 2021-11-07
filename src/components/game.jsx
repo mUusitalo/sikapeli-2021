@@ -71,6 +71,8 @@ const Game = ({uid, db, signOut}) => {
         modificationsRef.current = [...modificationsRef.current, modificationLogEntry]
     }
 
+    const baconPerClick = 1 + gamestate[GamestateVariables.KERROIN]*(gamestate.calculateBaconPerSecond() / 100)
+
     return (
         <>
             <SignOut {...{signOut, modificationsRef, previousModificationTimeRef}}/>
@@ -79,7 +81,7 @@ const Game = ({uid, db, signOut}) => {
                     <div id='bacon-counter'>{gamestate.formatNumber((gamestate[GamestateVariables.PEKONI]), 5)} <img class="counter-icon" src={Icons[GamestateVariables.PEKONI]}/></div>
                     <div id='bacon-per-second'>{gamestate.calculateBaconPerSecond().toFixed(1)} <img class="bpc-icon" src={Icons[GamestateVariables.PEKONI]}/>/S</div>
                 </div>
-                <SikaKuva handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
+                <SikaKuva baconPerClick={baconPerClick} handleClick={() => {setGamestateAndLogModification(GamestateVariables.PEKONI)}}/>
                 <div id='store'><Store gamestate={gamestate} handleClick={x => setGamestateAndLogModification(x)}/></div>
             </div>
         </>

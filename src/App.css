@@ -105,15 +105,6 @@ button:disabled {
   transform: translate(-50%, -50%);
 }
 
-.plus-one {
-  position: relative;
-  z-index: 10;
-  animation: floating 2s linear;
-  color: transparent;
-  font-size: 3vh;
-  margin-bottom: -5vh;
-}
-
 #sika-background {
   height: var(--sika-size);
   width: var(--sika-size);
@@ -122,14 +113,34 @@ button:disabled {
 }
 
 #sika-img {
+  position: absolute;
   z-index: 1;
   height: var(--sika-size);
   width: var(--sika-size);
 }
 
 #sika-img[animated='1'] {
+  z-index: 1;
   animation: click;
   animation-duration: 0.08s;
+}
+
+.plus-one {
+  z-index: 2;
+  animation: floating 2s linear;
+  color: transparent;
+  font-size: 3vh;
+  margin-bottom: -3vh;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 #store {
