@@ -84,6 +84,16 @@ button:disabled {
   grid-area: sika;
 }
 
+
+.plus-one {
+  position: relative;
+  z-index: 10;
+  animation: floating 2s linear;
+  color: transparent;
+  font-size: 3vh;
+  margin-bottom: -5vh;
+}
+
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
@@ -269,5 +279,16 @@ button:disabled {
   100% {
     width:  var(--sika-size);
     height: var(--sika-size);
+  }
+}
+
+@keyframes floating {
+  0% {
+    color: white;
+    top: 130px;
+  }
+  100% {
+    color: transparent;
+    top: 0px;
   }
 }
