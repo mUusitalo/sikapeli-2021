@@ -63,8 +63,8 @@ class Gamestate {
             )
     }
 
-    formatNumber(number) {
-       return Math.log(number)<10 ? number.toFixed(0) : number.toExponential(2)
+    formatNumber(number, digits) {
+       return Math.log10(number)<10 ? number.toLocaleString('fi').replace(/,\d+/, '') : number.toExponential(digits)
     }
     
     stepInTime(milliseconds) {

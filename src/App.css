@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Smokum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
 :root {
   --sika-size: 40vw;
@@ -38,6 +40,7 @@ body {
   background-repeat: no-repeat;
   color: white;
   font-family: 'Rye', cursive;
+
   text-align: center;
   align-items: center;
   justify-items: center;
@@ -58,7 +61,8 @@ button {
   border-width: 4px;
   background-color: #924A36;
   color:  white;
-  font-family: 'Rye', cursive;
+  font-family: 'rye', cursive;
+
 }
 
 button:disabled {
@@ -166,12 +170,15 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-content: center;
+
   grid-area: counter;
 }
 
 #bacon-counter, .bacon-per-second {
   display: flex;
   flex-direction: row;
+  /*font-family: 'impact', cursive;*/
+  /*font-variant-numeric: tabular-nums;*/
   font-size: 5vh;
 }
 
@@ -218,7 +225,8 @@ button:disabled {
   }
 
   #bacon-counter{
-    font-size: 4vh;
+    font-size: 5vh;
+    font-variant-numeric: tabular-nums;
   }
 
   .item-price {
