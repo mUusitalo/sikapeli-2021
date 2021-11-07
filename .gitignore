@@ -10,7 +10,8 @@ node_modules/# See https://help.github.com/articles/ignoring-files/ for more abo
 
 # production
 build/
-public/
+public/static/
+public/asset-manifest.json
 
 # misc
 .firebase/
