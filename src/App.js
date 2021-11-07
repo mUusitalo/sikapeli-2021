@@ -15,7 +15,6 @@ const db = getFirestore()
 
 function App() {
   const [ user ] = useAuthState(auth);
-
   useEffect(() => document.title = "Sikapeli", [])
 
   return (

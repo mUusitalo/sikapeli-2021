@@ -7,7 +7,6 @@
   --click-size: 5vw;
 }
 
-
 header {
   display: grid;
   font-size: 5px;
@@ -24,6 +23,16 @@ header {
 
 #sign-in {
   margin-top: 3vh;
+}
+
+/* This is a poor solution but so be it */
+#sign-out {
+  max-width: fit-content;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  margin-right: 2vh;
+  margin-top: 4vh;
 }
 
 #post-scriptum {
@@ -72,7 +81,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-
 #game {
   display: grid;
   grid-template-rows: 13vh calc(var(--sika-size) - 10vw);
@@ -85,10 +93,17 @@ button:disabled {
 }
 
 #sika-img-div {
-  padding-top: 10vh;
+  position: relative;
+  /*padding-top: 10vh;*/
   grid-area: sika;
 }
 
+.sika-button{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
 
 .plus-one {
   position: relative;
@@ -100,19 +115,14 @@ button:disabled {
 }
 
 #sika-background {
-  position: relative;
+  height: var(--sika-size);
+  width: var(--sika-size);
   animation: spin 15s linear infinite;
-
-  margin-top: -100%;
-  margin-bottom: -30%;
-  z-index: 0;
+  z-index: -1;
 }
 
 #sika-img {
-  position: relative;
-  z-index: 2;
-  margin-top: calc(-0.5 * var(--click-size));
-  margin-bottom: calc(-0.5 * var(--click-size));
+  z-index: 1;
   height: var(--sika-size);
   width: var(--sika-size);
 }
@@ -121,7 +131,6 @@ button:disabled {
   animation: click;
   animation-duration: 0.08s;
 }
-
 
 #store {
   grid-area: store;
@@ -135,6 +144,7 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
   font-size: 1.5vw;
+  z-index: 1;
 }
 
 .icon {
@@ -177,8 +187,6 @@ button:disabled {
   font-size: 2.5vw;
 }
 
-
-
 #counter {
   display: flex;
   flex-direction: column;
@@ -214,7 +222,7 @@ button:disabled {
 
 @media (max-width: 800px) {
   :root {
-  --sika-size: 42vh;
+  --sika-size: 38vh;
   --click-size: 6vh;
   }
 
@@ -237,9 +245,13 @@ button:disabled {
       "store";
   }
 
-  #sika-background {
-    margin-top: -90%;
-    margin-bottom: -40%;
+  #sika-img{
+    margin-bottom: 30px;
+  }
+
+  #store{
+    margin-top: 5vh;
+    margin-bottom: 10vh;
   }
 
   #bacon-counter{
@@ -274,10 +286,10 @@ button:disabled {
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
