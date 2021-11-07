@@ -13,7 +13,7 @@ header {
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 11vh;
   grid-template-areas:
-      "empty title sign-in";
+      "empty title sign-out";
 }
 
 .empty {
@@ -21,16 +21,17 @@ header {
 }
 
 #sign-in {
-  display: flex;
-  flex-direction: row-reverse;
-  grid-area: sign-in;
+  margin-top: 3vh;
+}
+
+#post-scriptum {
+  font-size: 1vh;
 }
 
 #game-title {
   font-size: 8vh;
   grid-area: title;
 }
-
 
 body {
   background-image: url("./assets/sika_background.png");
