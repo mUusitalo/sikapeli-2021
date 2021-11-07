@@ -1,6 +1,6 @@
 import { useState, } from "react";
 import SikaImg from "../assets/sika_head.svg"
-import SIKA_BACKGROND from '../assets/glow.svg'
+import SIKA_BACKGROUND from '../assets/glow.svg'
 
 const SikaKuva = ({handleClick}) => {
 	const [animated, setAnimated] = useState(0)
@@ -15,7 +15,7 @@ const SikaKuva = ({handleClick}) => {
 		 alt='Sian kuva'
 		 animated={animated}
 		/>
-		<img id='sika-background' src={SIKA_BACKGROND}/>
+		<img id='sika-background' src={SIKA_BACKGROUND}/>
 		</div>)}
 
 export {SikaKuva}

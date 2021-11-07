@@ -50,6 +50,7 @@ html,body
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 button {
@@ -86,9 +87,9 @@ button:disabled {
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
-
   margin-top: -80%;
-  z-index: 1;
+  margin-bottom: -50%;
+  z-index: 0;
 }
 
 #sika-img {
@@ -96,8 +97,8 @@ button:disabled {
   z-index: 2;
   margin-top: calc(-0.5 * var(--click-size));
   margin-bottom: calc(-0.5 * var(--click-size));
-  height: var(--sika-size);
-  width: var(--sika-size);
+  /*height: var(--sika-size);*/
+  /*width: var(--sika-size);*/
 }
 
 #sika-img[animated='1'] {

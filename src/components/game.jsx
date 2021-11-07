@@ -30,18 +30,18 @@ const Game = ({uid, db}) => {
         modificationsRef.current = []
     }, [setGamestate, modificationsRef, previousModificationTimeRef])
 
-    useEffect(() => {
-        // This might need cleanup
-        setInterval(
-            () => {
-                console.log("Verifying gamestate")
-                runBackendGamestateVerification({
-                    modifications: modificationsRef.current,
-                    previousModificationTime: previousModificationTimeRef.current,
-                    handleVerify
-            })},
-            VERIFICATION_FREQUENCY)
-    }, [modificationsRef, previousModificationTimeRef, handleVerify])
+    // useEffect(() => {
+    //     // This might need cleanup
+    //     setInterval(
+    //         () => {
+    //             console.log("Verifying gamestate")
+    //             runBackendGamestateVerification({
+    //                 modifications: modificationsRef.current,
+    //                 previousModificationTime: previousModificationTimeRef.current,
+    //                 handleVerify
+    //         })},
+    //         VERIFICATION_FREQUENCY)
+    // }, [modificationsRef, previousModificationTimeRef, handleVerify])
     
     const setGamestateAndLogModification = (modification) => {
         setGamestate(gamestate.add(modification))
