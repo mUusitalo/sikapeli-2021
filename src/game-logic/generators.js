@@ -7,38 +7,38 @@ const generatorSpecs = {
     },
 
     [GamestateVariables.SALUUNA]: {
-        rate: 0.8,
-        basePrice: 170
+        rate: 1.2,
+        basePrice: 300
     },
 
     [GamestateVariables.COWBOY]: {
-        rate: 5,
-        basePrice: 800
+        rate: 6,
+        basePrice: 1622.61
     },
 
     [GamestateVariables.SIKALAUMA]: {
         rate: 50,
-        basePrice: 6500
+        basePrice: 10000
     },
 
     [GamestateVariables.SIKAFARMI]: {
-        rate: 300,
-        basePrice: 50000
+        rate: 470,
+        basePrice: 90000
     },
 
     [GamestateVariables.KYLA]: {
         rate: 1100,
-        basePrice: 342000
+        basePrice: 340000
     },
 
     [GamestateVariables.KULTAKAIVOS]: {
-        rate: 5000,
-        basePrice: 1600000
+        rate: 8000,
+        basePrice: 3600000
     },
 
     [GamestateVariables.SIKAIMPERIUMI]: {
-        rate: 24000,
-        basePrice: 9000000
+        rate: 60000,
+        basePrice: 25000000
     },
 }
 

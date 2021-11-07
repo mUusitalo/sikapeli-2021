@@ -50,7 +50,7 @@ async function runBackendGamestateVerification({
         })
         
         const verifiedGamestate = new Gamestate(res.data)
-        handleVerify(verifiedGamestate, currentTime)    
+        handleVerify?.(verifiedGamestate, currentTime)    
 }
 
 export default runBackendGamestateVerification
