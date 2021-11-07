@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 :root {
-  --sika-size: 45vw;
-  --click-size: 7vw;
+  --sika-size: 35vw;
+  --click-size: 5vw;
 }
 
 
@@ -51,6 +51,7 @@ html,body
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 button {
@@ -84,12 +85,22 @@ button:disabled {
   grid-area: sika;
 }
 
+
+.plus-one {
+  position: relative;
+  z-index: 10;
+  animation: floating 2s linear;
+  color: transparent;
+  font-size: 3vh;
+  margin-bottom: -5vh;
+}
+
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
-
-  margin-top: -80%;
-  z-index: 1;
+  margin-top: -100%;
+  margin-bottom: -30%;
+  z-index: 0;
 }
 
 #sika-img {
@@ -214,6 +225,11 @@ button:disabled {
       "store";
   }
 
+  #sika-background {
+    margin-top: -90%;
+    margin-bottom: -40%;
+  }
+
   #bacon-counter{
     font-size: 4vh;
   }
@@ -264,5 +280,16 @@ button:disabled {
   100% {
     width:  var(--sika-size);
     height: var(--sika-size);
+  }
+}
+
+@keyframes floating {
+  0% {
+    color: white;
+    top: 130px;
+  }
+  100% {
+    color: transparent;
+    top: 0px;
   }
 }
