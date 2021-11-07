@@ -30,7 +30,7 @@ const Game = ({uid, db, signOut}) => {
                 setGamestate(new Gamestate(plainGamestate)))
 
         return () => {
-            console.log("Verified gamestate after sign out")
+            console.log("Saving")
             runBackendGamestateVerification({
             modifications: modificationsRef.current,
             previousModificationTime: previousModificationTimeRef.current,
@@ -44,7 +44,7 @@ const Game = ({uid, db, signOut}) => {
         // This might need cleanup
         const id = setInterval(
             () => {
-                console.log("Verifying gamestate")
+                console.log("Autosaving")
                 runBackendGamestateVerification({
                     modifications: modificationsRef.current,
                     previousModificationTime: previousModificationTimeRef.current,
