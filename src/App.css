@@ -3,8 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
 :root {
-  --sika-size: 40vw;
-  --click-size: 4vw;
+  --sika-size: 35vw;
+  --click-size: 5vw;
 }
 
 
@@ -15,7 +15,7 @@ header {
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 11vh;
   grid-template-areas:
-      "empty title sign-in";
+      "empty title sign-out";
 }
 
 .empty {
@@ -23,16 +23,17 @@ header {
 }
 
 #sign-in {
-  display: flex;
-  flex-direction: row-reverse;
-  grid-area: sign-in;
+  margin-top: 3vh;
+}
+
+#post-scriptum {
+  font-size: 1vh;
 }
 
 #game-title {
   font-size: 8vh;
   grid-area: title;
 }
-
 
 body {
   background-image: url("./assets/sika_background.png");
@@ -53,6 +54,7 @@ html,body
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 button {
@@ -87,12 +89,23 @@ button:disabled {
   grid-area: sika;
 }
 
+
+.plus-one {
+  position: relative;
+  z-index: 10;
+  animation: floating 2s linear;
+  color: transparent;
+  font-size: 3vh;
+  margin-bottom: -5vh;
+}
+
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
 
-  margin-top: -80%;
-  z-index: -1;
+  margin-top: -100%;
+  margin-bottom: -30%;
+  z-index: 0;
 }
 
 #sika-img {
@@ -224,6 +237,11 @@ button:disabled {
       "store";
   }
 
+  #sika-background {
+    margin-top: -90%;
+    margin-bottom: -40%;
+  }
+
   #bacon-counter{
     font-size: 5vh;
     font-variant-numeric: tabular-nums;
@@ -276,5 +294,16 @@ button:disabled {
   100% {
     width:  var(--sika-size);
     height: var(--sika-size);
+  }
+}
+
+@keyframes floating {
+  0% {
+    color: white;
+    top: 130px;
+  }
+  100% {
+    color: transparent;
+    top: 0px;
   }
 }

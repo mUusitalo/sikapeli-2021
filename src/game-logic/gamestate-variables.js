@@ -8,7 +8,8 @@ const GamestateVariables = {
     KYLA: 'Kylä',
     KULTAKAIVOS: 'Kultakaivos',
     SIKAIMPERIUMI: 'Imperiumi',
-    RESET: 'Reset'
+    RESET: 'Reset',
+    KERROIN: 'Kerroin'
 }
 Object.freeze(GamestateVariables)
 

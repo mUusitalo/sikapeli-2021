@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import firebaseEnv from './firebase-config.js'
 import { Game } from './components/game.jsx'
+import { useEffect } from 'react';
 
 const firebaseApp = initializeApp(firebaseEnv)
 const auth = getAuth(firebaseApp);
@@ -15,26 +16,20 @@ const db = getFirestore()
 function App() {
   const [ user ] = useAuthState(auth);
 
-  document.title = "Sikapeli"
+  useEffect(() => document.title = "Sikapeli", [])
 
   return (
     <div className="App">
       <header>
         <div class="empty"></div>
         <h1 id="game-title">SikaClick</h1>
-        <div id="sign-in">
-        <SignOut />
-        <section>
-          {user ? <SignedInComponent/> : <SignIn/>}
-        </section>
-        </div>
       </header>
-      {user ? <Game uid={user.uid} db={db}/> : <h1>Kirjaudu sisään pelataksesi</h1>}
+      {user ? <Game uid={user.uid} db={db} signOut={() => auth.currentUser && auth.signOut()}/>:<SignIn/>}
     </div>
   );
 }
 
-function SignIn() {
+const SignIn = () => {
 
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -42,24 +37,14 @@ function SignIn() {
   }
 
   return (
-    <>
-      <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
-      <p>Do not violate the community guidelines or you will be banned for life!</p>
-    </>
+    <div id="sign-in">
+      <p>When closing the page please do so by clicking the "sign out" button to make sure your game is saved!</p>
+      <p>The player with the most resets will be awarded a prize at the main event 🤠</p>
+      <button onClick={signInWithGoogle}>Sign in with Google to play</button>
+      <p id="post-scriptum">PS. There's more spaghetti in the game's code than at Täffä, so if something unexpected happens, contact sikajuhla21@gmail.com</p>
+    </div>
   )
 
-}
-
-const SignedInComponent = () => (
-  <>
-    <p>{/*JEEJEE kirjautunut sisään 😎*/}</p>
-  </>
-)
-
-function SignOut() {
-  return auth.currentUser && (
-    <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
-  )
 }
 
 
