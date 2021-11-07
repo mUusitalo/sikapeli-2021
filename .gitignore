@@ -9,9 +9,11 @@ node_modules/# See https://help.github.com/articles/ignoring-files/ for more abo
 /coverage
 
 # production
-/build
+build/
+public/
 
 # misc
+.firebase/
 .DS_Store
 .env.local
 .env.development.local
