@@ -1,5 +1,6 @@
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 
+import KERROIN_IMG from "../assets/cursor.png"
 import PEKONI_IMG from "../assets/bacon.png"
 import RESET_IMG from "../assets/reset.png"
 import REVOLVERI_IMG from "../assets/revolveri.png"
@@ -12,6 +13,7 @@ import SIKALAUMA_IMG from "../assets/sikalauma.png"
 import SIKAFARMI_IMG from "../assets/sikafarmi.png"
 
 const Icons = {
+	[GamestateVariables.KERROIN]: KERROIN_IMG,
 	[GamestateVariables.PEKONI]: PEKONI_IMG,
 	[GamestateVariables.RESET]: RESET_IMG,
 	[GamestateVariables.SIKAIMPERIUMI]: SIKAIMPERIUMI_IMG,
