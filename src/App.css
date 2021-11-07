@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 
 :root {
-  --sika-size: 45vw;
-  --click-size: 7vw;
+  --sika-size: 35vw;
+  --click-size: 5vw;
 }
 
 
@@ -87,8 +87,8 @@ button:disabled {
 #sika-background {
   position: relative;
   animation: spin 15s linear infinite;
-  margin-top: -80%;
-  margin-bottom: -50%;
+  margin-top: -100%;
+  margin-bottom: -30%;
   z-index: 0;
 }
 
@@ -97,8 +97,8 @@ button:disabled {
   z-index: 2;
   margin-top: calc(-0.5 * var(--click-size));
   margin-bottom: calc(-0.5 * var(--click-size));
-  /*height: var(--sika-size);*/
-  /*width: var(--sika-size);*/
+  height: var(--sika-size);
+  width: var(--sika-size);
 }
 
 #sika-img[animated='1'] {
@@ -212,6 +212,11 @@ button:disabled {
       "counter"
       "sika"
       "store";
+  }
+
+  #sika-background {
+    margin-top: -90%;
+    margin-bottom: -40%;
   }
 
   #bacon-counter{
