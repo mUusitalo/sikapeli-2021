@@ -233,7 +233,7 @@ button:disabled {
 
 @media (max-width: 800px) {
   :root {
-  --sika-size: 38vh;
+  --sika-size: 34vh;
   --click-size: 6vh;
   }
 
@@ -262,7 +262,7 @@ button:disabled {
 
   #store{
     margin-top: 5vh;
-    margin-bottom: 10vh;
+    margin-bottom: 20vh;
   }
 
   #bacon-counter{
