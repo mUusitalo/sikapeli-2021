@@ -121,7 +121,7 @@ const verifyGamestate = functions
          * This is necessary to prevent cheating.
         */
         if (!(spentTimeAndClicksAreValid(modifications, idleTimeAfterModifications, currentTime - timestamp))) {
-            logger.log("spentTimeAndClicksAreValid is not valid!")
+            logger.log("spentTimeAndClicksAreValid is not valid!", context.auth)
             return oldGamestate
         }
 
