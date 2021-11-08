@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 
 const { GamestateVariables } = require('./game-logic/gamestate-variables.js')
 const { Gamestate } = require('./game-logic/gamestate.js')
-const { MARGIN_OF_ERROR_IN_MILLISECONDS, MAX_DELTA_TIME_SUM, MAX_CLICKS_PER_SECOND } = require('./constants.js')
+const { MARGIN_OF_ERROR_IN_MILLISECONDS, MAX_DELTA_TIME_SUM, MAX_CLICKS_PER_SECOND, } = require('./constants.js')
 
 admin.initializeApp();
 
@@ -15,21 +15,13 @@ admin.initializeApp();
  * @param {Array<{deltams: Number, gamestateVariable: String}>} modifications - List of modifications (additions) to the gamestate
  */
 function buildGamestate(oldGamestate, modifications, idleTimeAfterModifications) {
-    modifications = addMarginOfError(modifications)
     return modifications
-        .reduce((state, {deltaTime, modification, count}) =>
-            state.stepInTime(deltaTime).add(modification, count), oldGamestate)
+        .reduce(
+            (state, {deltaTime, modification, count}) =>
+                state.stepInTime(deltaTime).add(modification, count),
+            oldGamestate.stepInTime(MARGIN_OF_ERROR_IN_MILLISECONDS)
+        )
         .stepInTime(idleTimeAfterModifications);
-}
-
-/**
- * Add margin of error to first modification to handle delays between the client and the backend
- */
-function addMarginOfError(modifications) {
-    if (modifications.length === 0) return []
-    const copy = [...modifications]
-    copy[0].deltaTime += MARGIN_OF_ERROR_IN_MILLISECONDS
-    return copy
 }
 
 function countTime(modifications) {
@@ -39,7 +31,8 @@ function countTime(modifications) {
 /**
  * Check that the total passed time in modifications is defined and below MAX_DELTA_TIME_SUM
  */
-function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) {
+function testTimeAndClicks(modifications, idleTime, serverTimeElapsed) {
+
 
     const totalDeltaTime = countTime(modifications) + idleTime
     const clickCount = modifications
@@ -52,22 +45,22 @@ function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) 
     // Total time spent doesn't exceed MAX_DELTA_TIME_SUM
     const totalDeltaTimeIsValid = totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
     
-    if (!clickCountIsValid) {logger.warn(`Clicked too many times: ${clickCount}`)}
-    if (!totalDeltaTimeIsValid) {logger.warn(
+    if (!clickCountIsValid) {throw new Error(`Clicked too many times: ${clickCount} in ${totalDeltaTime}`)}
+    if (!totalDeltaTimeIsValid) {throw new Error(
         `Too much time between updates: ${(totalDeltaTime / 1000).toFixed(1)} seconds.\n\
         Server time difference was ${(serverTimeElapsed / 1000).toFixed(1)} seconds.\n\
         Maximum is ${(MAX_DELTA_TIME_SUM / 1000).toFixed(1)} seconds.`
     )}
 
-    return clickCountIsValid && totalDeltaTimeIsValid
+    return clickCount
 }
 
-async function writeToDatabase(auth, gamestate, timestamp) {
+async function writeToDatabase({data, auth}) {
     return admin
         .firestore()
         .collection('users')
         .doc(auth.uid)
-        .set({gamestate,timestamp})
+        .set(data)
 }
 
 async function readFromDatabase(auth) {
@@ -75,7 +68,7 @@ async function readFromDatabase(auth) {
         .firestore()
         .doc(`users/${auth.uid}`)
         .get('server'))
-        .data()
+            .data()
 }
 
 /**
@@ -89,39 +82,41 @@ const verifyGamestate = functions
     .region('europe-central2')
     .https
     .onCall(async (args, context) => {
-
         // Return empty gamestate if user is not authenticated. 
         if (!context?.auth?.uid) {
-            logger.log("No authentication")
+            logger.error("No authentication")
             return new Gamestate()
         }
 
+        const currentTime = admin.firestore.Timestamp.now().toMillis()
+
         const { modifications = [], idleTimeAfterModifications = 0 } = args
+
         /** 
          * Read gamestate and timestamp from database.
          * ?? {} is there because readFromDatabase might return undefined.
-        */
-        let {gamestate: plainGamestate, timestamp} = await readFromDatabase(context.auth) ?? {}
-        //logger.log("Old gamestate from database:", plainGamestate, timestamp)
-
-        // Convert plain JS object into Gamestate class instance
-        const oldGamestate = new Gamestate(plainGamestate)
-
-        const currentTime = Date.now()
-        /**
          * Timestamp can be null if it's the user's first update.
          * Therefore we assume the time to be MAX_DELTA_TIME_SUM milliseconds before the current time
         */
-        timestamp = timestamp ?? currentTime - MAX_DELTA_TIME_SUM
+        let {
+            gamestate: plainGamestate,
+            timestamp=currentTime-MAX_DELTA_TIME_SUM,
+            successfulCallCount=0,
+            clickCount=0
+        } = await readFromDatabase(context.auth) ?? {}
 
-
+        // Convert plain JS object into Gamestate class instance
+        const oldGamestate = new Gamestate(plainGamestate)
+        
         /**
          * Return old gamestate from database if the user hasn't sent an update in MAX_DELTA_TIME_SUM
          * or if the time spent by the client is longer than the server time since the previous update.
          * This is necessary to prevent cheating.
         */
-        if (!(spentTimeAndClicksAreValid(modifications, idleTimeAfterModifications, currentTime - timestamp))) {
-            logger.warn("spentTimeAndClicksAreValid is not valid!", context.auth)
+        try {
+            clickCount += testTimeAndClicks(modifications, idleTimeAfterModifications, currentTime - timestamp)
+        } catch (e) {
+            logger.error("Error in testTimeAndClicks: ", {error: e.message, oldGamestate, modifications, idleTimeAfterModifications, auth: context.auth})
             return oldGamestate
         }
 
@@ -133,12 +128,20 @@ const verifyGamestate = functions
         try {
             newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
         } catch(e) {
-            logger.warn("Error in buildGamestate: ", {error: e, auth: context.auth})
+            logger.error("Error in buildGamestate: ", {error: e.message, oldGamestate, modifications, idleTimeAfterModifications, auth: context.auth})
             return oldGamestate
         }
         
         // Gamestate has to be converted to a plain JS object to write it to Firestore.
-        writeToDatabase(context.auth, {...newGamestate}, currentTime)
+        writeToDatabase({
+            auth: context.auth,
+            data: {
+                gamestate: {...newGamestate},
+                timestamp: currentTime,
+                successfulCallCount: successfulCallCount + 1,
+                clickCount
+            }
+        })
 
         // Return updated and verified gamestate to client
         return newGamestate
