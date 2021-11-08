@@ -28,14 +28,6 @@ const Game = ({uid, db, signOut}) => {
         readGamestate({uid, db})
             .then(plainGamestate =>
                 setGamestate(new Gamestate(plainGamestate)))
-
-        return () => {
-            console.log("Saving")
-            runBackendGamestateVerification({
-            modifications: modificationsRef.current,
-            previousModificationTime: previousModificationTimeRef.current,
-            handleVerify: () => {}
-        })}
     }, [uid, db, handleVerify])
 
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
@@ -89,14 +81,19 @@ const Game = ({uid, db, signOut}) => {
 }
 
 const SignOut = ({signOut, modificationsRef, previousModificationTimeRef}) => {
-    const verifyAndSignOut = () => {
-        runBackendGamestateVerification({
+    const [ isLoading, setLoading ] = useState(false)
+
+    const verifyAndSignOut = async () => {
+
+        setLoading(true)
+        await runBackendGamestateVerification({
             modifications: modificationsRef.current, 
             previousModificationTime: previousModificationTimeRef.current,
         })
+        setLoading(false)
         signOut()
     }
-    return (<button id="sign-out" onClick={verifyAndSignOut}>Sign Out</button>)
+    return (<button id="sign-out" disabled={isLoading} onClick={verifyAndSignOut}>Sign Out</button>)
 }
 
 export { Game }
