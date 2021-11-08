@@ -52,8 +52,8 @@ function spentTimeAndClicksAreValid(modifications, idleTime, serverTimeElapsed) 
     // Total time spent doesn't exceed MAX_DELTA_TIME_SUM
     const totalDeltaTimeIsValid = totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
     
-    if (!clickCountIsValid) {logger.log(`Clicked too many times: ${clickCount}`)}
-    if (!totalDeltaTimeIsValid) {logger.log(
+    if (!clickCountIsValid) {logger.warn(`Clicked too many times: ${clickCount}`)}
+    if (!totalDeltaTimeIsValid) {logger.warn(
         `Too much time between updates: ${(totalDeltaTime / 1000).toFixed(1)} seconds.\n\
         Server time difference was ${(serverTimeElapsed / 1000).toFixed(1)} seconds.\n\
         Maximum is ${(MAX_DELTA_TIME_SUM / 1000).toFixed(1)} seconds.`
@@ -121,7 +121,7 @@ const verifyGamestate = functions
          * This is necessary to prevent cheating.
         */
         if (!(spentTimeAndClicksAreValid(modifications, idleTimeAfterModifications, currentTime - timestamp))) {
-            logger.log("spentTimeAndClicksAreValid is not valid!", context.auth)
+            logger.warn("spentTimeAndClicksAreValid is not valid!", context.auth)
             return oldGamestate
         }
 
@@ -133,7 +133,7 @@ const verifyGamestate = functions
         try {
             newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
         } catch(e) {
-            logger.log("Error in buildGamestate: ", {error: e, auth: context.auth})
+            logger.warn("Error in buildGamestate: ", {error: e, auth: context.auth})
             return oldGamestate
         }
         
