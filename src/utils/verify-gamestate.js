@@ -21,10 +21,10 @@ function compressModifications(modifications){
         if (all.length === 0) return [next]
 
         if (next.modification === GamestateVariables.PEKONI
-            && all.at(-1).modification === GamestateVariables.PEKONI
+            && all[all.length - 1].modification === GamestateVariables.PEKONI
         ){  
             const copy = [...all]
-            const last = {...copy.at(-1)}
+            const last = {...copy[copy.length - 1]}
             
             last.count += 1
             last.deltaTime += next.deltaTime
