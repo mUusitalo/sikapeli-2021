@@ -9,6 +9,13 @@ const { MARGIN_OF_ERROR_IN_MILLISECONDS, MAX_DELTA_TIME_SUM, MAX_CLICKS_PER_SECO
 
 admin.initializeApp();
 
+class VerificationError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "VerificationError"
+    }
+}
+
 /**
  * Adds all of the given modifications to the given gamestate.
  * @param {Gamestate} oldGamestate - Old gamestate to which modifications are applied
@@ -117,7 +124,7 @@ const verifyGamestate = functions
             clickCount += testTimeAndClicks(modifications, idleTimeAfterModifications, currentTime - timestamp)
         } catch (e) {
             logger.error("Error in testTimeAndClicks: ", {error: e.message, oldGamestate, modifications, idleTimeAfterModifications, auth: context.auth})
-            return oldGamestate
+            throw new functions.https.HttpsError('VerificationError', e.message, e)
         }
 
         /**
@@ -129,7 +136,7 @@ const verifyGamestate = functions
             newGamestate = buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
         } catch(e) {
             logger.error("Error in buildGamestate: ", {error: e.message, oldGamestate, modifications, idleTimeAfterModifications, auth: context.auth})
-            return oldGamestate
+            throw new functions.https.HttpsError('VerificationError', e.message, e)
         }
         
         // Gamestate has to be converted to a plain JS object to write it to Firestore.

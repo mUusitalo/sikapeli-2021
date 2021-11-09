@@ -1,5 +1,5 @@
 const MARGIN_OF_ERROR_IN_MILLISECONDS = 2000
-const MAX_DELTA_TIME_SUM = 30 * 60 * 1000 // 30 minutes
+const MAX_DELTA_TIME_SUM = 31 * 60 * 1000 // 30 minutes
 const MAX_CLICKS_PER_SECOND = 50
 
 module.exports = {

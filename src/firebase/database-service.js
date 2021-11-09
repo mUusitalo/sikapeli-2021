@@ -1,9 +1,12 @@
 import { doc, getDoc, setDoc } from "firebase/firestore"; 
 
-
 async function readGamestate({uid, db}) {
   let docref = await getDoc(doc(db, "users", uid));
-  return docref?.data()?.gamestate
+  const data = docref?.data() ?? {}
+  return {
+    gamestate: data.gamestate,
+    timestamp: data.timestamp
+  }
 }
 
 async function saveGamestate({uid, gamestate, db}) {

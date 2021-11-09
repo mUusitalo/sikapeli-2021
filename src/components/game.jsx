@@ -5,6 +5,7 @@ import { useBeforeunload } from 'react-beforeunload';
 import { readGamestate } from "../firebase/database-service";
 import { VERIFICATION_FREQUENCY, MAX_FAILED_SAVE_TRIES } from '../constants.js';
 import runBackendGamestateVerification from "../utils/verify-gamestate.js";
+import { alertAndLogError } from '../utils/utils.js'
 import { Gamestate, } from '../game-logic/gamestate'
 import { GamestateVariables, } from "../game-logic/gamestate-variables";
 import { SikaKuva, } from './sikaKuva.jsx'
@@ -16,6 +17,7 @@ const Game = ({uid, db, signOut}) => {
     const modificationsRef = useRef([])
     const previousModificationTimeRef = useRef(Date.now())
     const saveTriesRef = useRef(0)
+    const previousVerificationRef = useRef({gamestate, timestamp: previousModificationTimeRef.current})
 
     useBeforeunload(() => 'Suljethan pelin kiltisti "Sign out"-napin kautta, niin pelitilasi tallennetaan tietokantaan 🤠')
 
@@ -23,25 +25,48 @@ const Game = ({uid, db, signOut}) => {
         setGamestate(verifiedGamestate)
         previousModificationTimeRef.current = Date.now()
         modificationsRef.current = []
-    }, [setGamestate, modificationsRef, previousModificationTimeRef])
+        previousVerificationRef.current = {
+            gamestate: verifiedGamestate,
+            timestamp: previousModificationTimeRef.current
+        }
+    }, [setGamestate, modificationsRef, previousModificationTimeRef, previousVerificationRef])
     
     useEffect(() => {
         readGamestate({uid, db})
-            .then(plainGamestate =>
-                setGamestate(new Gamestate(plainGamestate)))
+            .then(({gamestate: plainGamestate, timestamp}) => {
+                const gamestate = new Gamestate(plainGamestate)
+                previousVerificationRef.current = {
+                    gamestate,
+                    timestamp
+                }
+                setGamestate(gamestate)
+            })
     }, [uid, db])
 
     useAnimationFrame(deltaTime => setGamestate(gamestate => gamestate.stepInTime(deltaTime)))
 
-    const handleSaveError = (e) => {
+    const resetToPreviousVerifiedState = useCallback(() => {
+        previousModificationTimeRef.current = previousVerificationRef.current.timestamp
+        modificationsRef.current = []
+        saveTriesRef.current = 0
+        setGamestate(previousVerificationRef.current.gamestate)
+    }, [previousModificationTimeRef, modificationsRef, saveTriesRef, setGamestate])
+
+
+    const handleNetworkError = useCallback(e => {
         if (saveTriesRef.current < MAX_FAILED_SAVE_TRIES) {
             saveTriesRef.current += 1
-            alert(`Could not save the game. Is your internet connection OK? Error: ${e.message}`)
+            alertAndLogError("Could not save the game. Is your internet connection OK?", e)
         } else {
-            saveTriesRef.current = 0
-            setGamestate(new Gamestate())
+            alertAndLogError("Reverting game to previously saved state due to connection error.", e)
+            resetToPreviousVerifiedState()
         }
-    }
+    }, [resetToPreviousVerifiedState])
+
+    const handleVerificationError = useCallback(e => {
+        alertAndLogError("Reverting game to previously saved state due to an unexpected error", e)
+        resetToPreviousVerifiedState()
+    }, [resetToPreviousVerifiedState])
 
     useEffect(() => {
         const id = setInterval(
@@ -54,14 +79,15 @@ const Game = ({uid, db, signOut}) => {
                     })
                     handleVerify(verifiedGamestate)
                 } catch (e) {
-                    console.error("Failed to save the game.", e)
-                    handleSaveError(e)
+                    const { name, message } = e
+                    if (name === "VerificationError") { console.log("Got verification error");handleVerificationError(message)}
+                    else {handleNetworkError(message)}
                 }
             },
             VERIFICATION_FREQUENCY)
         
         return () => clearInterval(id)
-    }, [modificationsRef, previousModificationTimeRef, handleVerify])
+    }, [modificationsRef, previousModificationTimeRef, handleVerify, handleNetworkError, handleVerificationError])
     
     const setGamestateAndLogModification = (modification) => {
         setGamestate(gamestate.add(modification))

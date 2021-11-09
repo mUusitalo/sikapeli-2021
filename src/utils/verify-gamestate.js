@@ -45,14 +45,24 @@ async function runBackendGamestateVerification({
     }){
         const currentTime = Date.now()
 
-        const res = await verifyGamestate({
-            modifications: compressModifications(modifications),
-            idleTimeAfterModifications: currentTime - previousModificationTime
-        })
+        try {
+            const res = await verifyGamestate({
+                modifications: compressModifications(modifications),
+                idleTimeAfterModifications: currentTime - previousModificationTime
+            })
+
+            const verifiedGamestate = new Gamestate(res.data)
         
-        const verifiedGamestate = new Gamestate(res.data)
+            return verifiedGamestate
+    
+        } catch (e) {
+            const {code, message} = e
+            console.log(code)
+            const newError = new Error(message)
+            newError.name = code
+            throw newError
+        }
         
-        return verifiedGamestate
 }
 
 export default runBackendGamestateVerification
