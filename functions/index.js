@@ -33,7 +33,7 @@ function countTime(modifications) {
  */
 function testTimeAndClicks(modifications, idleTime, serverTimeElapsed) {
 
-
+    if (idleTime < 0) { throw new Error(`Idle time can't be negative! idleTime: ${idleTime}`) }
     const totalDeltaTime = countTime(modifications) + idleTime
     const clickCount = modifications
         .filter(m => m.modification === GamestateVariables.PEKONI) // Filter our everything except clicks
