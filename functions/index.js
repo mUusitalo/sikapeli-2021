@@ -25,7 +25,10 @@ function buildGamestate(oldGamestate, modifications, idleTimeAfterModifications)
 }
 
 function countTime(modifications) {
-    return modifications.reduce((total, modification) => total + modification.deltaTime, 0)
+    return modifications.reduce((total, modification) => {
+        if (modification.deltaTime < 0) { throw new Error(`Modication deltaTime can't be negative! deltaTime: ${modification.deltaTime}`)}
+        return total + modification.deltaTime
+    }, 0)
 }
 
 /**
@@ -40,10 +43,12 @@ function testTimeAndClicks(modifications, idleTime, serverTimeElapsed) {
         .reduce((t, n) => t + n.count, 0) // Sum count
     
     // Click frequency doesn't exceed MAX_CLICKS_PER_SECOND
-    const clickCountIsValid = clickCount * 1000 / totalDeltaTime <= MAX_CLICKS_PER_SECOND
+    const clickCountIsValid = (totalDeltaTime !== 0)
+        && (clickCount * 1000 / totalDeltaTime <= MAX_CLICKS_PER_SECOND)
 
     // Total time spent doesn't exceed MAX_DELTA_TIME_SUM
-    const totalDeltaTimeIsValid = totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS
+    const totalDeltaTimeIsValid = (totalDeltaTime > 0
+        && totalDeltaTime <= Math.min(MAX_DELTA_TIME_SUM, serverTimeElapsed) + MARGIN_OF_ERROR_IN_MILLISECONDS)
     
     if (!clickCountIsValid) {throw new Error(`Clicked too many times: ${clickCount} in ${totalDeltaTime}`)}
     if (!totalDeltaTimeIsValid) {throw new Error(
