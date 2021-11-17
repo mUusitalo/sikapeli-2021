@@ -42,6 +42,7 @@ class Gamestate {
         switch(gamestateVariable) {
             // Clicked the pig
             case GamestateVariables.PEKONI:
+                if (count < 1) {throw new Error(`Count can't be less than one, count: ${count}`)}
                 return this.copyAndRaiseProperty(
                     gamestateVariable,
                     // 1% of bacon per second per each KERROIN extra to each click
@@ -71,7 +72,7 @@ class Gamestate {
         var generatedBacon = this.calculateBaconPerSecond() * (milliseconds / 1000)
         var newState = new Gamestate(this)
         newState[GamestateVariables.PEKONI] += generatedBacon
-        return newState //{stepInTime: (temp) => {throw new Error("uusi olio on jeejee toimii tältä osin")}}
+        return newState
     }
 }
 
