@@ -47,6 +47,6 @@ const GenerationRate = ({gamestate, gamestateVariable}) => {
 	}
 }
 
-const BaconIcon = () => <img class="price-icon" alt="bacon" src={Icons[GamestateVariables.PEKONI]}/>
+const BaconIcon = () => <img class="bacon-icon" alt="bacon" src={Icons[GamestateVariables.PEKONI]}/>
 
 export {StoreItem}
