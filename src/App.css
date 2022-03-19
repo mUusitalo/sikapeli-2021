@@ -5,6 +5,7 @@
 :root {
   --sika-size: 35vw;
   --click-size: 5vw;
+  --Xposition:  100px;
 }
 
 header {
@@ -48,22 +49,24 @@ body {
   background-image: url("./assets/sika_background.png");
   background-size: cover;
   background-repeat: no-repeat;
-  color: white;
-  font-family: 'Rye', cursive;
+
 
   text-align: center;
   align-items: center;
   justify-items: center;
 }
 
-html,body
-{
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: hidden;
-    overflow-y: hidden;
+html,body {
+  width: 100%;
+  height : 100%;
+  margin : 0px;
+  padding: 0px;
+  overflow-x : hidden;
+  overflow-y : hidden;
+
+  color: white;
+  font-family: 'Rye', cursive;
+  text-shadow: 0.1em 0.1em 0.1em black;
 }
 
 button {
@@ -72,6 +75,7 @@ button {
   border-width: 4px;
   background-color: #924A36;
   color:  white;
+  text-shadow: 0.08em 0.08em 0 black;
   font-family: 'rye', cursive;
 
 }
@@ -113,7 +117,6 @@ button:disabled {
 }
 
 #sika-img {
-  position: absolute;
   z-index: 1;
   height: var(--sika-size);
   width: var(--sika-size);
@@ -126,11 +129,13 @@ button:disabled {
 }
 
 .plus-one {
+  position: absolute;
   z-index: 2;
-  animation: floating 2s linear;
+  animation: floating 5s linear;
   color: transparent;
+  text-shadow: 0 0 0 transparent;
   font-size: 3vh;
-  margin-bottom: -3vh;
+  margin-bottom: -1em;
 }
 
 .unselectable {
@@ -187,13 +192,6 @@ button:disabled {
   font-size: 1vw;
 }
 
-.price-icon {
-  width: 1vw;
-  height: 1vw;
-  margin-left: 5px;
-  margin-top: -2px;
-}
-
 .item-amount {
   font-size: 2.5vw;
 }
@@ -202,33 +200,22 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-content: center;
-
   grid-area: counter;
 }
 
-#bacon-counter, .bacon-per-second {
-  display: flex;
-  flex-direction: row;
-  /*font-family: 'impact', cursive;*/
-  /*font-variant-numeric: tabular-nums;*/
+#bacon-counter {
   font-size: 5vh;
 }
 
-.counter-icon {
-  width: 5vh;
-  height: 5vh;
-  margin-left: 5px;
-  margin-top: 0.3vh;
-}
 
 .bacon-per-second {
   font-size: 3vh;
 }
 
-.bpc-icon {
-  width: 3vh;
-  height: 3vh;
+.bacon-icon {
+  width: 1em;
   margin-left: 5px;
+  margin-top: 1px;
 }
 
 @media (max-width: 800px) {
@@ -274,11 +261,6 @@ button:disabled {
     font-size: 1.3vh;
   }
 
-  .price-icon {
-    margin-top: -2px;
-    width: 1.8vh;
-    height: 1.8vh;
-  }
 
   .item-name {
     font-size: 1.6vh;
@@ -292,7 +274,6 @@ button:disabled {
     width: 6vh;
     height: 6vh;
   }
-
 }
 
 @keyframes spin {
@@ -323,10 +304,16 @@ button:disabled {
 @keyframes floating {
   0% {
     color: white;
-    top: 130px;
+    text-shadow: inherit;
   }
+
+  50% {
+    top: -250px;
+    color: transparent;
+  }
+
   100% {
     color: transparent;
-    top: 0px;
+    top: -500px;
   }
 }
