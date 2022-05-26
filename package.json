@@ -2,15 +2,15 @@
   "name": "sikapeli-2021",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  
   "dependencies": {
     "firebase": "^9.1.2",
-    "react": "^17.0.2",
-    "react-app-polyfill": "^2.0.0",
+    "react": "^18.1.0",
+    "react-app-polyfill": "^3.0.0",
     "react-beforeunload": "^2.5.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.1.0",
     "react-firebase-hooks": "^3.0.4",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
   },
