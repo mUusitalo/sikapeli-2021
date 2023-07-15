@@ -17,7 +17,7 @@ const SikaKuva = ({handleClick, baconPerClick}) => {
 					} else {
 						setPlus(plus.concat([[e.clientX, e.clientY, uuidv1().slice(0, 8)]]));
 					}
-				 	
+					handleClick()
 				}}
 				onAnimationEnd={() => setAnimated(0)}
 				src={SikaImg}
