@@ -3,3 +3,10 @@
 Play the game [here](https://sikapeli-2021.web.app/)
 
 ![](src/assets/sika_head.svg)
+
+
+Deploy:
+```bash
+firebase login && firebase deploy
+```
+
